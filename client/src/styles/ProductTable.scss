@@ -1,0 +1,71 @@
+.product-table {
+    .product-table-select {
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end;
+
+        .product-table-select-option {
+            width: 80px;
+            height: 20px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .action-button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+
+            &.view {
+                background-color: #007bff;
+                color: white;
+            }
+
+            &.edit {
+                background-color: #ffc107;
+                color: white;
+            }
+
+            &.delete {
+                background-color: #dc3545;
+                color: white;
+            }
+        }
+    }
+
+    .pagination {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+
+        span {
+            margin: 0 5px;
+        }
+    }
+}

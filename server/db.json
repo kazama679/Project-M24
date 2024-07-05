@@ -1,0 +1,43 @@
+{
+  "products": [
+    {
+      "id": 2,
+      "name": "VF8",
+      "status": true,
+      "category": "car",
+      "price": 10000000,
+      "date": "04/07/2024"
+    },
+    {
+      "id": 5,
+      "name": "VF LUX A 2.0",
+      "status": true,
+      "category": "car",
+      "price": 10000000,
+      "date": "04/07/2024"
+    }
+  ],
+  "classify": [
+    {
+      "id": 1,
+      "name": "minh thu",
+      "description": "siêu nhẹ",
+      "status": true,
+      "products": []
+    },
+    {
+      "id": 4899183,
+      "name": "minh thu",
+      "description": "",
+      "status": true,
+      "products": []
+    },
+    {
+      "id": 30383129,
+      "name": "minh thu",
+      "description": "qqq",
+      "status": false,
+      "products": []
+    }
+  ]
+}
