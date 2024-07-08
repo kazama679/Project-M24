@@ -47,11 +47,16 @@ a {
   text-decoration: none;
   margin: 15px 0;
 }
-
+.mess{
+  color: red;
+  display: flex;
+  justify-content: start;
+  font-size: 12px;
+}
 button {
   border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
+  border: 1px solid #77c57d;
+  background-color: #77c57d;
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
@@ -148,7 +153,11 @@ input {
     z-index: 5;
   }
 }
-
+.imageLogo{
+  margin-top: 10px;
+  width: 100px;
+  border-radius: 50%;
+}
 .overlay-container {
   position: absolute;
   top: 0;
@@ -165,9 +174,9 @@ input {
 }
 
 .overlay {
-  background: #ff416c;
-  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
-  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  background: #77c57d;
+  // background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
+  // background: linear-gradient(to right, #ff4b2b, #ff416c);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;

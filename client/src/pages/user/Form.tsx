@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../styles/Login.scss";
 import SignInForm from "../user/Login";
 import SignUpForm from "../user/Register";
+import image from '../../images/Đen và Xanh mòng két Minh họa Thể thao Điện tử Game Logo (1).png'
 
 export default function App() {
   const [type, setType] = useState("signIn");
@@ -23,25 +24,28 @@ export default function App() {
             <div className="overlay-panel overlay-left">
               <h1>Welcome Back!</h1>
               <p>
-                To keep connected with us please login with your personal info
+                Bạn đã có tài khoản>
               </p>
               <button
                 className="ghost"
                 id="signIn"
                 onClick={() => handleOnClick("signIn")}
               >
-                Sign In
+                Đăng nhập
               </button>
             </div>
             <div className="overlay-panel overlay-right">
               <h1>Hello, Friend!</h1>
-              <p>Enter your personal details and start journey with us</p>
+              <div>
+                <img src={image} alt="" className="imageLogo"/>
+              </div>
+              <p>Bạn chưa có tài khoản?</p>
               <button
                 className="ghost "
                 id="signUp"
                 onClick={() => handleOnClick("signUp")}
               >
-                Sign Up
+                Đăng ký
               </button>
             </div>
           </div>

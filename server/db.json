@@ -43,6 +43,39 @@
       "address": "123",
       "created_at": "07/07/2024",
       "updated_at": "07/07/2024"
+    },
+    {
+      "id": 27626876,
+      "name": "12345555",
+      "email": "huyen@gmail.com",
+      "status": true,
+      "password": "123",
+      "phone": "5",
+      "address": "5",
+      "created_at": "08/07/2024",
+      "updated_at": "08/07/2024"
+    },
+    {
+      "id": 83752971,
+      "name": "123555",
+      "email": "123",
+      "status": true,
+      "password": "123",
+      "phone": "123",
+      "address": "123",
+      "created_at": "08/07/2024",
+      "updated_at": "08/07/2024"
+    },
+    {
+      "id": 1669083,
+      "name": "ggg",
+      "email": "1",
+      "status": true,
+      "password": "123",
+      "phone": "55",
+      "address": "444",
+      "created_at": "08/07/2024",
+      "updated_at": "08/07/2024"
     }
   ],
   "products": [

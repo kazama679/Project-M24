@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUser } from '../../store/reducers/userReducer';
+import { FaFacebook } from "react-icons/fa";
+import { TiSocialGooglePlus } from "react-icons/ti";
+import { FaTelegram } from "react-icons/fa";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch()
@@ -31,37 +34,33 @@ const Login: React.FC = () => {
   return (
     <div className="form-container sign-in-container">
       <form 
-        // onSubmit={handleOnSubmit}
       >
-        <h1>Sign in</h1>
+        <h1>Đăng nhập</h1>
         <div className="social-container">
           <a href="#" className="social">
-            <i className="fab fa-facebook-f" />
+            <FaFacebook />
           </a>
           <a href="#" className="social">
-            <i className="fab fa-google-plus-g" />
+            <TiSocialGooglePlus/>
           </a>
           <a href="#" className="social">
-            <i className="fab fa-linkedin-in" />
+            <FaTelegram />
           </a>
         </div>
-        <span>or use your account</span>
         <input
           type="email"
           placeholder="Email"
           name="email"
-          // value={state.email}
-          // onChange={handleChange}
+          onChange={handleChangeEmail}
         />
         <input
           type="password"
           name="password"
           placeholder="Password"
-          // value={state.password}
-          // onChange={handleChange}
+          onChange={handleChangePassword}
         />
-        <a href="#">Forgot your password?</a>
-        <button>Sign In</button>
+        <a href="#">Bạn quên mật khẩu?</a>
+        <button onClick={handleClickLogin}>Đăng nhập</button>
       </form>
     </div>
   );
@@ -69,7 +68,3 @@ const Login: React.FC = () => {
 
 export default Login;
 
-
-// onChange={handleChangeEmail}
-// onChange={handleChangePassword}
-// onClick={handleClickLogin}

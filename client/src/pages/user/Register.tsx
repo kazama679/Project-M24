@@ -122,127 +122,52 @@ const Register: React.FC = () => {
   return (
     <div className="form-container sign-up-container">
       <form 
-      // onSubmit={handleOnSubmit}
       >
         <h1>Create Account</h1>
-        <div className="social-container">
-          <a href="#" className="social">
-            <i className="fab fa-facebook-f" />
-          </a>
-          <a href="#" className="social">
-            <i className="fab fa-google-plus-g" />
-          </a>
-          <a href="#" className="social">
-            <i className="fab fa-linkedin-in" />
-          </a>
-        </div>
-        <span>or use your email for registration</span>
         <input
           type="text"
           name="name"
-          // value={state.name}
-          // onChange={handleChange}
-          placeholder="Name"
+          placeholder="Tên đăng nhập"
+          onChange={handleChangeName}
         />
+        <div style={{ display: `${messName ? "block" : "none"}` }} className='mess'>Tên đăng nhập không được để trống</div>
+        <div style={{ display: `${messCheckName ? "block" : "none"}` }} className='mess'>Tên đăng nhập không được phép trùng</div>
         <input
           type="email"
           name="email"
-          // value={state.email}
-          // onChange={handleChange}
+          onChange={handleChangeEmail}
           placeholder="Email"
+        />
+          <div style={{ display: `${messEmail ? "block" : "none"}` }} className='mess'>Email không được để trống</div>
+        <input
+          type="password"
+          name="password"
+          onChange={handleChangePassword}
+          placeholder="Mật khẩu"
         />
         <input
           type="password"
           name="password"
-          // value={state.password}
-          // onChange={handleChange}
-          placeholder="Password"
+          onChange={handleChangePasswordx2}
+          placeholder="Nhập lại mật khẩu"
         />
-        <button>Sign Up</button>
+          <div style={{ display: `${messPass ? "block" : "none"}` }} className='mess'>Mật khẩu không trùng nhau</div>
+        <input
+          type="text"
+          placeholder="Số điện thoại"
+          onChange={handleChangePhone}
+        />
+          <div style={{ display: `${messPhone ? "block" : "none"}` }} className='mess'>Số điện thoại không được để trống</div>
+        <input
+          type="text"
+          placeholder="Địa chỉ"
+          onChange={handleChangeAddress}
+        />
+          <div style={{ display: `${messAddress ? "block" : "none"}` }} className='mess'>Địa chỉ không được để trống</div>
+        <button onClick={handleCLickSave}>Đăng ký</button>
       </form>
     </div>
   );
 };
 
 export default Register;
-
-
-
-{/* <div className="signup-form">
-      <form className="signup-form__form" onSubmit={handleCLickSave}>
-        <h2 className="signup-form__title">Đăng kí tài khoản</h2>
-        <div className="signup-form__input-group">
-          <input
-            type="text"
-            name="name"
-            placeholder="Tên đăng nhập"
-            className="signup-form__input"
-            onChange={handleChangeName}
-          />
-          <div style={{ display: `${messName ? "block" : "none"}` }} className='mess'>Tên đăng nhập không được để trống</div>
-          <div style={{ display: `${messCheckName ? "block" : "none"}` }} className='mess'>Tên đăng nhập không được phép trùng</div>
-        </div>
-        <div className="signup-form__input-group">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="signup-form__input"
-            onChange={handleChangeEmail}
-          />
-          <div style={{ display: `${messEmail ? "block" : "none"}` }} className='mess'>Email không được để trống</div>
-        </div>
-        <div className="signup-form__input-group">
-          <input
-            type="password"
-            name="password"
-            placeholder="Mật khẩu"
-            className="signup-form__input"
-            onChange={handleChangePassword}
-          />
-        </div>
-        <div className="signup-form__input-group">
-          <input
-            type="password"
-            placeholder="Nhập lại mật khẩu"
-            className="signup-form__input"
-            onChange={handleChangePasswordx2}
-          />
-          <div style={{ display: `${messPass ? "block" : "none"}` }} className='mess'>Mật khẩu không trùng nhau</div>
-        </div>
-        <div className="signup-form__input-group">
-          <input
-            type="text"
-            placeholder="Số điện thoại"
-            className="signup-form__input"
-            onChange={handleChangePhone}
-          />
-          <div style={{ display: `${messPhone ? "block" : "none"}` }} className='mess'>Số điện thoại không được để trống</div>
-        </div>
-        <div className="signup-form__input-group">
-          <input
-            type="text"
-            placeholder="Địa chỉ"
-            className="signup-form__input"
-            onChange={handleChangeAddress}
-          />
-          <div style={{ display: `${messAddress ? "block" : "none"}` }} className='mess'>Địa chỉ không được để trống</div>
-        </div>
-
-        <div className="signup-form__checkbox-group">
-          <input
-            type="checkbox"
-            name="agreeToTerms"
-            className="signup-form__checkbox"
-          />
-          <label className="signup-form__label">
-            Tôi đồng ý với <a href="#">Điều khoản Dịch vụ</a>
-          </label>
-        </div>
-        <button type="submit" className="signup-form__button">Đăng ký</button>
-      </form>
-      <div className="signup-form__already-member">
-        <img className='signup-form__image' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtPsTo0O4HPdTD9J01zGVBExsmHwGK-kC6sA&s" alt="" />
-        <a href="/">Bạn đã có tài khoản?</a>
-      </div>
-    </div> */}
