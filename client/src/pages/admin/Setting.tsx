@@ -18,7 +18,7 @@ import { IoIosLogOut } from 'react-icons/io';
 const Settings = () => {
     // đăng xuất admin
     const handleLogOut=()=>{
-        window.location.href = 'http://localhost:5173';
+        window.location.href = 'http://localhost:5173/LoginAdmin';
     }
     return (
         <div className="dashboard">

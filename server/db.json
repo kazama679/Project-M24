@@ -1,4 +1,50 @@
 {
+  "users": [
+    {
+      "id": 96478248,
+      "name": "123",
+      "email": "nxquang2k5@gmail.com",
+      "status": true,
+      "password": "123",
+      "phone": "123",
+      "address": "123",
+      "created_at": "07/07/2024",
+      "updated_at": "07/07/2024"
+    },
+    {
+      "id": 50034316,
+      "name": "1234",
+      "email": "1@gmail.com",
+      "status": true,
+      "password": "123",
+      "phone": "123",
+      "address": "123",
+      "created_at": "07/07/2024",
+      "updated_at": "07/07/2024"
+    },
+    {
+      "id": 63607477,
+      "name": "ád",
+      "email": "huyen@gmail.com",
+      "status": true,
+      "password": "123",
+      "phone": "123",
+      "address": "123",
+      "created_at": "07/07/2024",
+      "updated_at": "07/07/2024"
+    },
+    {
+      "id": 7508927,
+      "name": "12345",
+      "email": "123@gmail.com",
+      "status": true,
+      "password": "123",
+      "phone": "123",
+      "address": "123",
+      "created_at": "07/07/2024",
+      "updated_at": "07/07/2024"
+    }
+  ],
   "products": [
     {
       "id": 2,
@@ -17,27 +63,5 @@
       "date": "04/07/2024"
     }
   ],
-  "classify": [
-    {
-      "id": 1,
-      "name": "minh thu",
-      "description": "siêu nhẹ",
-      "status": true,
-      "products": []
-    },
-    {
-      "id": 4899183,
-      "name": "minh thu",
-      "description": "",
-      "status": true,
-      "products": []
-    },
-    {
-      "id": 30383129,
-      "name": "minh thu",
-      "description": "qqq",
-      "status": false,
-      "products": []
-    }
-  ]
+  "classify": []
 }

@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteCategory, getAllCategory, updateCategory } from '../../../store/reducers/categoryReducer';
 import AddCategory from './AddCategory';
 import { IoIosLogOut } from 'react-icons/io';
+import EditCategory from './EditCategory';
 
 const Category = () => {
     const data:any = useSelector(state=>state);
@@ -25,6 +26,7 @@ const Category = () => {
         dispatch(getAllCategory());
     },[])
     const [statusCategory, setStatusCategory] = useState<boolean>(true);
+    const [statusEditCategory, setStatusEditCategory] = useState<boolean>(true);
     const onclickAddCategory = () => {
         setStatusCategory(false);
     }
@@ -38,12 +40,16 @@ const Category = () => {
     }
     // cập nhập
     const handleUpdateCategory=(item:any)=>{
-        const newCategory = { ...item, name: "minh thu" }
-        dispatch(updateCategory(newCategory));
+        setStatusEditCategory(false)
+        // const newCategory = { ...item, name: "minh thu" }
+        // dispatch(updateCategory(newCategory));
+    }
+    const backEditCategory = () => {
+        setStatusEditCategory(true);
     }
     // đăng xuất admin
     const handleLogOut=()=>{
-        window.location.href = 'http://localhost:5173';
+        window.location.href = 'http://localhost:5173/LoginAdmin';
     }
     return (
         <div className="dashboard">
@@ -94,9 +100,9 @@ const Category = () => {
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Status</th>
-                                        <th>Description</th>
+                                        <th>Loại</th>
+                                        <th>Trạng thái</th>
+                                        <th>Đặc điểm</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -108,7 +114,6 @@ const Category = () => {
                                             <td>{item.status ? "Đang hoạt động" : "Đã dừng"}</td>
                                             <td>{item.description}</td>
                                             <td>
-                                                <button className="action-button view">View</button>
                                                 <button onClick={()=>handleUpdateCategory(item)} className="action-button edit">Edit</button>
                                                 <button onClick={()=>handleDeleteCategory(item.id)} className="action-button delete">Delete</button>
                                             </td>
@@ -129,6 +134,9 @@ const Category = () => {
                     </div>
                     <div style={{ display: `${statusCategory ? "none" : "block"}` }}>
                         <AddCategory backCategory={backCategory} />
+                    </div>
+                    <div style={{ display: `${statusEditCategory ? "none" : "block"}` }}>
+                        <EditCategory backEditCategory={backEditCategory} />
                     </div>
                 </div>
             </main>

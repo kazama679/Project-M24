@@ -8,12 +8,18 @@ import Customers from './pages/admin/Customers';
 import Setting from './pages/admin/Setting';
 import Category from './pages/admin/category/Category';
 import LoginAdmin from './pages/admin/LoginAdmin';
+import Register from './pages/user/Register';
+import Home from './pages/user/Home';
+import Form from './pages/user/Form';
 
 const App = () => {
     return (
         <div className="App">
             <Routes>
-                <Route path="/" element={<LoginAdmin />} />
+                <Route path="/" element={<Form />} />
+                <Route path="/Home" element={<Home />} />
+                <Route path="/Register" element={<Register />} />
+                <Route path="/LoginAdmin" element={<LoginAdmin />} />
                 <Route path="/Dashboard" element={<Dashboard />} />
                 <Route path="/Products" element={<ProductManagement />} />
                 <Route path="/Orders" element={<Orders />} />

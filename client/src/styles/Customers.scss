@@ -1,0 +1,67 @@
+.user-table {
+    width: 100%;
+    padding: 20px;
+  
+    &__table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+  
+    &__thead,
+    &__tbody,
+    &__tr,
+    &__th,
+    &__td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+  
+    &__th {
+      background-color: #f2f2f2;
+    }
+  
+    &__view-button {
+      background-color: #6c63ff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  
+    &__active-button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  
+    &__inactive-button {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  
+    &__pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+  
+      &__page-button {
+        border: 1px solid #ddd;
+        padding: 5px 10px;
+        margin: 0 5px;
+        cursor: pointer;
+        background-color: #fff;
+  
+        &:hover {
+          background-color: #f2f2f2;
+        }
+      }
+    }
+  }
+  
