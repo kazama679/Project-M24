@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "../../styles/Login.scss";
-import SignInForm from "../user/Login";
-import SignUpForm from "../user/Register";
+import Login from "../user/Login";
+import Register from "../user/Register";
 import image from '../../images/Đen và Xanh mòng két Minh họa Thể thao Điện tử Game Logo (1).png'
 
-export default function App() {
+export default function Form() {
   const [type, setType] = useState("signIn");
   const handleOnClick = (text:any) => {
     if (text !== type) {
@@ -17,14 +17,14 @@ export default function App() {
   return (
     <div className="App">
       <div className={containerClass} id="container">
-        <SignUpForm />
-        <SignInForm />
+        <Login />
+        <Register />
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left">
               <h1>Welcome Back!</h1>
               <p>
-                Bạn đã có tài khoản>
+                Bạn đã có tài khoản
               </p>
               <button
                 className="ghost"

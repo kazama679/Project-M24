@@ -1,79 +1,24 @@
 {
   "users": [
     {
-      "id": 96478248,
+      "id": 80812854,
       "name": "123",
-      "email": "nxquang2k5@gmail.com",
-      "status": true,
-      "password": "123",
-      "phone": "123",
-      "address": "123",
-      "created_at": "07/07/2024",
-      "updated_at": "07/07/2024"
-    },
-    {
-      "id": 50034316,
-      "name": "1234",
-      "email": "1@gmail.com",
-      "status": true,
-      "password": "123",
-      "phone": "123",
-      "address": "123",
-      "created_at": "07/07/2024",
-      "updated_at": "07/07/2024"
-    },
-    {
-      "id": 63607477,
-      "name": "ád",
-      "email": "huyen@gmail.com",
-      "status": true,
-      "password": "123",
-      "phone": "123",
-      "address": "123",
-      "created_at": "07/07/2024",
-      "updated_at": "07/07/2024"
-    },
-    {
-      "id": 7508927,
-      "name": "12345",
       "email": "123@gmail.com",
       "status": true,
       "password": "123",
       "phone": "123",
       "address": "123",
-      "created_at": "07/07/2024",
-      "updated_at": "07/07/2024"
-    },
-    {
-      "id": 27626876,
-      "name": "12345555",
-      "email": "huyen@gmail.com",
-      "status": true,
-      "password": "123",
-      "phone": "5",
-      "address": "5",
       "created_at": "08/07/2024",
       "updated_at": "08/07/2024"
     },
     {
-      "id": 83752971,
-      "name": "123555",
-      "email": "123",
-      "status": true,
-      "password": "123",
-      "phone": "123",
-      "address": "123",
-      "created_at": "08/07/2024",
-      "updated_at": "08/07/2024"
-    },
-    {
-      "id": 1669083,
-      "name": "ggg",
-      "email": "1",
-      "status": true,
-      "password": "123",
-      "phone": "55",
-      "address": "444",
+      "id": 9976771,
+      "name": "g",
+      "email": "g@gmail.com",
+      "status": false,
+      "password": "g",
+      "phone": "g",
+      "address": "g",
       "created_at": "08/07/2024",
       "updated_at": "08/07/2024"
     }
@@ -96,5 +41,20 @@
       "date": "04/07/2024"
     }
   ],
-  "classify": []
+  "classify": [
+    {
+      "id": 26438103,
+      "name": "g",
+      "description": "g",
+      "status": true,
+      "products": []
+    },
+    {
+      "id": 90937503,
+      "name": "a",
+      "description": "a",
+      "status": true,
+      "products": []
+    }
+  ]
 }

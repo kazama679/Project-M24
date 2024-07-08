@@ -18,16 +18,16 @@ export const addUser: any = createAsyncThunk(
     }
 );
 // hàm cập nhật
-// export const updateUser: any = createAsyncThunk(
-//     "users/updateUser",
-//     async (item: any) => {
-//         const response: any = await axios.put(
-//             `http://localhost:8080/users/${item.id}`,
-//             item
-//         );
-//         return response.data;
-//     }
-// );
+export const updateUser: any = createAsyncThunk(
+    "users/updateUser",
+    async (item: any) => {
+        const response: any = await axios.put(
+            `http://localhost:8080/users/${item.id}`,
+            item
+        );
+        return response.data;
+    }
+);
 
 const userReducer = createSlice({
     name:"users",
@@ -53,14 +53,14 @@ const userReducer = createSlice({
             state.users.push(action.payload);
         })
         // cập nhập
-        // .addCase(updateUser.fulfilled, (state: any, action) => {
-        //     const index = state.users.findIndex((item: any) => {
-        //         return item.id === action.payload.id;
-        //     });
-        //     if (index != -1) {
-        //         state.users[index] = action.payload;
-        //     }
-        // });
+        .addCase(updateUser.fulfilled, (state: any, action) => {
+            const index = state.users.findIndex((item: any) => {
+                return item.id === action.payload.id;
+            });
+            if (index != -1) {
+                state.users[index] = action.payload;
+            }
+        });
     }
 })
 export default userReducer.reducer;

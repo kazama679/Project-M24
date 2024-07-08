@@ -15,7 +15,7 @@ import Settings from './Setting';
 import Category from './category/Category';
 import { IoIosLogOut } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUser } from '../../store/reducers/userReducer';
+import { getAllUser, updateUser } from '../../store/reducers/userReducer';
 
 const Customers = () => {
     const data:any = useSelector(state=>state);
@@ -28,6 +28,12 @@ const Customers = () => {
     // đăng xuất admin
     const handleLogOut = () => {
         window.location.href = 'http://localhost:5173/LoginAdmin';
+    }
+
+    // cập nhập trạng thái user
+    const handleStatusUser=(user:any)=>{
+        const newUser = { ...user, status: !user.status }
+        dispatch(updateUser(newUser));
     }
     return (
         <div className="dashboard">
@@ -87,7 +93,7 @@ const Customers = () => {
                                     <td className="user-table__td">{user.created_at}</td>
                                     <td className="user-table__td">
                                         <button className="user-table__view-button">View</button>
-                                        <button className={user.status ? "user-table__active-button" : "user-table__inactive-button"}>
+                                        <button onClick={()=>handleStatusUser(user)} className={user.status ? "user-table__active-button" : "user-table__inactive-button"}>
                                             {user.status ? "Mở" : "Chặn"}
                                         </button>
                                     </td>

@@ -10,7 +10,6 @@ import { MdOutlineSettingsSuggest } from "react-icons/md";
 import { NavLink, Route, Routes } from 'react-router-dom';
 import Products from './product/Products';
 import Customers from './Customers';
-// import Dashboard from './Dashboard';
 import Orders from './Orders';
 import Settings from './Setting';
 import Category from './category/Category';
