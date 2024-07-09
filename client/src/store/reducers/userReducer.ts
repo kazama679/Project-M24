@@ -1,32 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { addUserAPI, getAllUserAPI, updateUserAPI } from "../../services/user.service";
 
-export const getAllUser:any = createAsyncThunk("users/getAllUser",async ()=>{
-    const response = await axios.get("http://localhost:8080/users")
-    return response.data
-})
+// hàm lấy thông tin user
+export const getAllUser:any = createAsyncThunk("users/getAllUser", getAllUserAPI)
 
-// hàm thêm thông tin
+// hàm thêm thông tin user
 export const addUser: any = createAsyncThunk(
-    "users/addUser",
-    async (user: any) => {
-        const response: any = await axios.post(
-            "http://localhost:8080/users",
-            user
-        );
-        return response.data;
-    }
+    "users/addUser", addUserAPI
 );
-// hàm cập nhật
+
+// hàm cập nhật user
 export const updateUser: any = createAsyncThunk(
-    "users/updateUser",
-    async (item: any) => {
-        const response: any = await axios.put(
-            `http://localhost:8080/users/${item.id}`,
-            item
-        );
-        return response.data;
-    }
+    "users/updateUser", updateUserAPI
 );
 
 const userReducer = createSlice({

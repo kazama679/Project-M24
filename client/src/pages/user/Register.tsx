@@ -19,6 +19,7 @@ const Register: React.FC = () => {
   const [messName, setMessName] = useState<boolean>(false);
   const [messCheckName, setMessCheckName] = useState<boolean>(false);
   const [messEmail, setMessEmail] = useState<boolean>(false);
+  const [messEmail2, setMessEmail2] = useState<boolean>(false);
   const [messPass, setMessPass] = useState<boolean>(false);
   const [messPhone, setMessPhone] = useState<boolean>(false);
   const [messAddress, setMessAddress] = useState<boolean>(false);
@@ -56,44 +57,69 @@ const Register: React.FC = () => {
     let isValid = true;
     
     if (name === '') {
-      setMessName(true);
       isValid = false;
+      setMessName(true);
+      setTimeout(()=>{
+        setMessName(false);
+      },3000)
     } else {
       setMessName(false);
     }
 
     const isNameDuplicate = data.userReducer.users.some((user: any) => user.name === name);
     if (isNameDuplicate) {
-      setMessCheckName(true);
       isValid = false;
+      setMessCheckName(true);
+      setTimeout(()=>{
+        setMessCheckName(false);
+      },3000)
     } else {
       setMessCheckName(false);
     }
-
     if (email === '') {
-      setMessEmail(true);
       isValid = false;
-    } else {
+      setMessEmail(true);
+      setTimeout(()=>{
+        setMessEmail(false);
+      },3000)
+    } else if(!/\S+@\S+\.\S+/.test(email)) {
       setMessEmail(false);
+      setMessEmail2(true);
+      isValid = false;
+      setTimeout(()=>{
+        setMessEmail2(false);
+      },3000)
+    } else{
+      setMessEmail(false);
+      setMessEmail2(false);
     }
 
     if (pass !== pass2) {
-      setMessPass(true);
       isValid = false;
+      setMessPass(true);
+      setTimeout(()=>{
+        setMessPass(false);
+      },3000)
     } else {
       setMessPass(false);
     }
 
     if (phone === '') {
-      setMessPhone(true);
       isValid = false;
+      setMessPhone(true);
+      setTimeout(()=>{
+        setMessPhone(false);
+      },3000)
     } else {
       setMessPhone(false);
     }
 
     if (address === '') {
-      setMessAddress(true);
       isValid = false;
+      setMessAddress(true);
+      setTimeout(()=>{
+        setMessAddress(false);
+      },3000)
     } else {
       setMessAddress(false);
     }
@@ -116,15 +142,13 @@ const Register: React.FC = () => {
       window.location.href = 'http://localhost:5173';
     }
   };
-
-
-
+  
   return (
     <div className="form-container sign-up-container">
-      <form 
+      <form className='form'
       >
         <h1>Create Account</h1>
-        <input
+        <input className='input'
           type="text"
           name="name"
           placeholder="Tên đăng nhập"
@@ -132,39 +156,40 @@ const Register: React.FC = () => {
         />
         <div style={{ display: `${messName ? "block" : "none"}` }} className='mess'>Tên đăng nhập không được để trống</div>
         <div style={{ display: `${messCheckName ? "block" : "none"}` }} className='mess'>Tên đăng nhập không được phép trùng</div>
-        <input
+        <input className='input'
           type="email"
           name="email"
           onChange={handleChangeEmail}
           placeholder="Email"
         />
           <div style={{ display: `${messEmail ? "block" : "none"}` }} className='mess'>Email không được để trống</div>
-        <input
+          <div style={{ display: `${messEmail2 ? "block" : "none"}` }} className='mess'>Định dạng Email không đúng</div>
+        <input className='input'
           type="password"
           name="password"
           onChange={handleChangePassword}
           placeholder="Mật khẩu"
         />
-        <input
+        <input className='input'
           type="password"
           name="password"
           onChange={handleChangePasswordx2}
           placeholder="Nhập lại mật khẩu"
         />
           <div style={{ display: `${messPass ? "block" : "none"}` }} className='mess'>Mật khẩu không trùng nhau</div>
-        <input
+        <input className='input'
           type="text"
           placeholder="Số điện thoại"
           onChange={handleChangePhone}
         />
           <div style={{ display: `${messPhone ? "block" : "none"}` }} className='mess'>Số điện thoại không được để trống</div>
-        <input
+        <input className='input'
           type="text"
           placeholder="Địa chỉ"
           onChange={handleChangeAddress}
         />
           <div style={{ display: `${messAddress ? "block" : "none"}` }} className='mess'>Địa chỉ không được để trống</div>
-        <button onClick={handleCLickSave}>Đăng ký</button>
+        <button className='button' onClick={handleCLickSave}>Đăng ký</button>
       </form>
     </div>
   );

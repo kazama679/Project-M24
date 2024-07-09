@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 
-body {
+.body {
   background: #f6f5f7;
   display: flex;
   justify-content: center;
@@ -17,6 +17,7 @@ body {
   flex-direction: column;
   font-family: "Montserrat", sans-serif;
   height: 100vh;
+  width: 100%;
   margin: -20px 0 50px;
 }
 
@@ -53,7 +54,7 @@ a {
   justify-content: start;
   font-size: 12px;
 }
-button {
+.button {
   border-radius: 20px;
   border: 1px solid #77c57d;
   background-color: #77c57d;
@@ -66,20 +67,20 @@ button {
   transition: transform 80ms ease-in;
 }
 
-button:active {
+.button:active {
   transform: scale(0.95);
 }
 
-button:focus {
+.button:focus {
   outline: none;
 }
 
-button.ghost {
+.button.ghost {
   background-color: transparent;
   border-color: #ffffff;
 }
 
-form {
+.form {
   background-color: #ffffff;
   display: flex;
   align-items: center;
@@ -90,7 +91,7 @@ form {
   text-align: center;
 }
 
-input {
+.input {
   background-color: #eee;
   border: none;
   padding: 12px 15px;
@@ -240,27 +241,27 @@ input {
   width: 40px;
 }
 
-footer {
-  background-color: #222;
-  color: #fff;
-  font-size: 14px;
-  bottom: 0;
-  position: fixed;
-  left: 0;
-  right: 0;
-  text-align: center;
-  z-index: 999;
-}
+// footer {
+//   background-color: #222;
+//   color: #fff;
+//   font-size: 14px;
+//   bottom: 0;
+//   position: fixed;
+//   left: 0;
+//   right: 0;
+//   text-align: center;
+//   z-index: 999;
+// }
 
-footer p {
-  margin: 10px 0;
-}
+// footer p {
+//   margin: 10px 0;
+// }
 
-footer i {
-  color: red;
-}
+// footer i {
+//   color: red;
+// }
 
-footer a {
-  color: #3c97bf;
-  text-decoration: none;
-}
+// footer a {
+//   color: #3c97bf;
+//   text-decoration: none;
+// }

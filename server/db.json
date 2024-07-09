@@ -4,7 +4,7 @@
       "id": 80812854,
       "name": "123",
       "email": "123@gmail.com",
-      "status": true,
+      "status": false,
       "password": "123",
       "phone": "123",
       "address": "123",
@@ -15,23 +15,37 @@
       "id": 9976771,
       "name": "g",
       "email": "g@gmail.com",
-      "status": false,
+      "status": true,
       "password": "g",
       "phone": "g",
       "address": "g",
       "created_at": "08/07/2024",
       "updated_at": "08/07/2024"
+    },
+    {
+      "id": 48931094,
+      "name": "12313gggg",
+      "email": "123@gmail.com",
+      "status": true,
+      "password": "123",
+      "phone": "123",
+      "address": "12313",
+      "created_at": "09/07/2024",
+      "updated_at": "09/07/2024"
+    },
+    {
+      "id": 89761022,
+      "name": "123ggggg",
+      "email": "1234@gmail.com",
+      "status": true,
+      "password": "123",
+      "phone": "23123",
+      "address": "123",
+      "created_at": "09/07/2024",
+      "updated_at": "09/07/2024"
     }
   ],
   "products": [
-    {
-      "id": 2,
-      "name": "VF8",
-      "status": true,
-      "category": "car",
-      "price": 10000000,
-      "date": "04/07/2024"
-    },
     {
       "id": 5,
       "name": "VF LUX A 2.0",
@@ -54,6 +68,20 @@
       "name": "a",
       "description": "a",
       "status": true,
+      "products": []
+    },
+    {
+      "id": 67605357,
+      "name": "ffffab",
+      "description": "fffffffasdasdfa",
+      "status": true,
+      "products": []
+    },
+    {
+      "id": 98742707,
+      "name": "123",
+      "description": "123",
+      "status": false,
       "products": []
     }
   ]

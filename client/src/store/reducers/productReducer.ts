@@ -1,17 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { deleteProductAPI, getProducts } from "../../services/products.service";
 
 // lấy thông tin tất cả products
-export const getAllProduct:any = createAsyncThunk("products/getAllProduct",async ()=>{
-    const response = await axios.get("http://localhost:8080/products")
-    return response.data
-})
+export const getAllProduct:any = createAsyncThunk("products/getAllProduct",getProducts)
 
 // hàm xóa thông tin product
-export const deleteProduct:any = createAsyncThunk("products/deleteProduct",async (id:number)=>{
-    await axios.delete(`http://localhost:8080/products/${id}`);
-    return id;
-})
+export const deleteProduct:any = createAsyncThunk("products/deleteProduct",deleteProductAPI)
 
 const productReducer = createSlice({
     name:"products",

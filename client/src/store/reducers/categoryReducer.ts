@@ -1,37 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { addCategoryAPI, deleteCategoryAPI, getAllCategoryAPI, updateCategoryAPI } from "../../services/category.service";
 
-export const getAllCategory:any = createAsyncThunk("classify/getAllCategory",async ()=>{
-    const response = await axios.get("http://localhost:8080/classify")
-    return response.data
-})
+// hàm lấy thông tin Category
+export const getAllCategory:any = createAsyncThunk("classify/getAllCategory",getAllCategoryAPI)
 
-export const deleteCategory:any = createAsyncThunk("classify/deleteCategory",async (id:number)=>{
-    await axios.delete(`http://localhost:8080/classify/${id}`);
-    return id;
-})
-// hàm thêm thông tin
+// hàm xóa thông tin Category
+export const deleteCategory:any = createAsyncThunk("classify/deleteCategory",deleteCategoryAPI)
+
+// hàm thêm thông tin Category
 export const addCategory: any = createAsyncThunk(
-    "classify/addCategory",
-    async (category: any) => {
-        const response: any = await axios.post(
-            "http://localhost:8080/classify",
-            category
-        );
-        return response.data;
-    }
+    "classify/addCategory",addCategoryAPI
 );
-// hàm cập nhật
+
+// hàm cập nhật Category
 export const updateCategory: any = createAsyncThunk(
-    "classify/updateCategory",
-    async (item: any) => {
-        const response: any = await axios.put(
-            `http://localhost:8080/classify/${item.id}`,
-            item
-        );
-        return response.data;
-    }
+    "classify/updateCategory",updateCategoryAPI
 );
+
 const categoryReducer = createSlice({
     name:"classify",
     initialState:{

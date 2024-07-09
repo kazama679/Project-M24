@@ -19,38 +19,42 @@ import { IoIosLogOut } from 'react-icons/io';
 import EditCategory from './EditCategory';
 
 const Category = () => {
-    const data:any = useSelector(state=>state);
-    console.log("data",data);
-    const dispatch=useDispatch()
-    useEffect(()=>{
+    const data = useSelector(state => state);
+    console.log("data", data);
+    const dispatch = useDispatch();
+    useEffect(() => {
         dispatch(getAllCategory());
-    },[])
-    const [statusCategory, setStatusCategory] = useState<boolean>(true);
-    const [statusEditCategory, setStatusEditCategory] = useState<boolean>(true);
+    }, []);
+    const [statusCategory, setStatusCategory] = useState(true);
+    const [statusEditCategory, setStatusEditCategory] = useState(true);
+    const [currentCategory, setCurrentCategory] = useState(null);
+
     const onclickAddCategory = () => {
         setStatusCategory(false);
-    }
+    };
     const backCategory = () => {
         setStatusCategory(true);
-    }
+    };
 
     // hàm xóa
-    const handleDeleteCategory=(id:number)=>{
+    const handleDeleteCategory = (id) => {
         dispatch(deleteCategory(id));
-    }
+    };
     // cập nhập
-    const handleUpdateCategory=(item:any)=>{
-        setStatusEditCategory(false)
-        // const newCategory = { ...item, name: "minh thu" }
-        // dispatch(updateCategory(newCategory));
-    }
+    const handleUpdateCategory = (item) => {
+        setStatusEditCategory(false);
+        setCurrentCategory(item);
+    };
     const backEditCategory = () => {
         setStatusEditCategory(true);
-    }
+        setCurrentCategory(null);
+    };
+
     // đăng xuất admin
-    const handleLogOut=()=>{
+    const handleLogOut = () => {
         window.location.href = 'http://localhost:5173/LoginAdmin';
-    }
+    };
+
     return (
         <div className="dashboard">
             <aside className="sidebar">
@@ -83,7 +87,7 @@ const Category = () => {
             </aside>
             <main className="main-content">
                 <Routes>
-                    <Route path="/Dashboard" element={<Dashboard/>} />
+                    <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path="/Products" element={<Products />} />
                     <Route path="/Orders" element={<Orders />} />
                     <Route path="/Customers" element={<Customers />} />
@@ -108,14 +112,14 @@ const Category = () => {
                                 </thead>
                                 <tbody>
                                     {data.categoryReducer.classify.map(item => (
-                                        <tr>
+                                        <tr key={item.id}>
                                             <td>{item.id}</td>
                                             <td>{item.name}</td>
                                             <td>{item.status ? "Đang hoạt động" : "Đã dừng"}</td>
                                             <td>{item.description}</td>
                                             <td>
-                                                <button onClick={()=>handleUpdateCategory(item)} className="action-button edit">Edit</button>
-                                                <button onClick={()=>handleDeleteCategory(item.id)} className="action-button delete">Delete</button>
+                                                <button onClick={() => handleUpdateCategory(item)} className="action-button edit">Edit</button>
+                                                <button onClick={() => handleDeleteCategory(item.id)} className="action-button delete">Delete</button>
                                             </td>
                                         </tr>
                                     ))}
@@ -136,7 +140,7 @@ const Category = () => {
                         <AddCategory backCategory={backCategory} />
                     </div>
                     <div style={{ display: `${statusEditCategory ? "none" : "block"}` }}>
-                        <EditCategory backEditCategory={backEditCategory} />
+                        <EditCategory backEditCategory={backEditCategory} currentCategory={currentCategory} />
                     </div>
                 </div>
             </main>
