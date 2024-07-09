@@ -97,7 +97,7 @@ const Category = () => {
                     <div className="header">
                         <h1>Category</h1>
                     </div>
-                    <div style={{ display: `${statusCategory ? "block" : "none"}` }} className="product-management-render">
+                    <div style={{ display: `${statusCategory&&statusEditCategory ? "block" : "none"}`}} className="product-management-render">
                         <button onClick={onclickAddCategory} className="add-button">+ Add Category</button>
                         <div className="product-table">
                             <table>

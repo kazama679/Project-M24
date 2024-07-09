@@ -8,6 +8,18 @@ export const getProducts = async () => {
 
 // hàm xóa thông tin products
 export const deleteProductAPI = async (id: number) => {
-    const res: any = await axios.delete(`http://localhost:8080/products/${id}`);
-    return res.data
+    await axios.delete(`http://localhost:8080/products/${id}`);
+    return id; // Trả về id của sản phẩm đã xóa
 }
+
+// hàm thêm product
+export const addProductAPI = async (product: any) => {
+    const response = await axios.post('http://localhost:8080/products', product);
+    return response.data;
+};
+
+// hàm cập nhật product
+export const updateProductAPI = async (product: any) => {
+    const response = await axios.put(`http://localhost:8080/products/${product.id}`, product);
+    return response.data;
+};

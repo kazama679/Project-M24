@@ -26,7 +26,7 @@
       "id": 48931094,
       "name": "12313gggg",
       "email": "123@gmail.com",
-      "status": true,
+      "status": false,
       "password": "123",
       "phone": "123",
       "address": "12313",
@@ -47,41 +47,63 @@
   ],
   "products": [
     {
-      "id": 5,
-      "name": "VF LUX A 2.0",
+      "id": 32868696,
+      "name": "g",
+      "price": 6123333,
+      "category": "Laptop gaming",
       "status": true,
-      "category": "car",
-      "price": 10000000,
-      "date": "04/07/2024"
+      "image": "",
+      "description": "",
+      "created_at": "09/07/2024",
+      "updated_at": "09/07/2024"
+    },
+    {
+      "id": 37581942,
+      "name": "123",
+      "price": 123123,
+      "category": "Laptop gaming",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "09/07/2024",
+      "updated_at": "09/07/2024"
+    },
+    {
+      "id": 99765432,
+      "name": "1231",
+      "price": 123123,
+      "category": "Laptop văn phòng",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "09/07/2024",
+      "updated_at": "09/07/2024"
+    },
+    {
+      "id": 69386706,
+      "name": "123123",
+      "price": 123,
+      "category": "Laptop văn phòng",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "09/07/2024",
+      "updated_at": "09/07/2024"
     }
   ],
   "classify": [
     {
-      "id": 26438103,
-      "name": "g",
-      "description": "g",
+      "id": 62714973,
+      "name": "Laptop văn phòng",
+      "description": "nhẹ",
       "status": true,
       "products": []
     },
     {
-      "id": 90937503,
-      "name": "a",
-      "description": "a",
+      "id": 55771500,
+      "name": "Laptop gaming",
+      "description": "khỏe",
       "status": true,
-      "products": []
-    },
-    {
-      "id": 67605357,
-      "name": "ffffab",
-      "description": "fffffffasdasdfa",
-      "status": true,
-      "products": []
-    },
-    {
-      "id": 98742707,
-      "name": "123",
-      "description": "123",
-      "status": false,
       "products": []
     }
   ]

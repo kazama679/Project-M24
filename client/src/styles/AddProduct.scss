@@ -1,7 +1,7 @@
 .add-product-page {
-    width: 800px;
+    width: 1000px;
     padding: 50px;
-    max-width: 600px;
+    max-width: 1000px;
     margin: auto;
     background-color: #fff;
     border-radius: 8px;
@@ -24,10 +24,19 @@
     .add-product-form {
         display: flex;
         flex-direction: column;
-
+        .form-group-two{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
         .form-group {
-            margin-bottom: 20px;
-
+            margin-bottom: 10px;
+            .messProduct{
+                color: red;
+                font-size: 12px;
+                margin-top: 5px;
+            }
+            
             label {
                 display: block;
                 margin-bottom: 5px;
@@ -40,17 +49,19 @@
             textarea {
                 width: 100%;
                 padding: 10px;
+                padding-right: 140px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
+                display: flex;
             }
-
             textarea {
                 resize: vertical;
             }
 
             .image-preview {
                 display: flex;
-                gap: 10px;
+                justify-content: center;
+                gap: 20px;
                 margin-top: 10px;
 
                 .image-placeholder {
@@ -64,8 +75,12 @@
                 }
             }
         }
-
+        .messAddProduct{
+            color: rgb(38, 194, 38);
+            margin-top: 5px;
+        }
         .submit-button {
+            margin-top:35px;
             background-color: #007bff;
             color: white;
             padding: 10px 20px;

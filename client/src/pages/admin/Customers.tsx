@@ -18,12 +18,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllUser, updateUser } from '../../store/reducers/userReducer';
 
 const Customers = () => {
-    const data:any = useSelector(state=>state);
-    console.log("data",data.userReducer.users);
-    const dispatch=useDispatch()
-    useEffect(()=>{
+    const data: any = useSelector(state => state);
+    console.log("data", data.userReducer.users);
+    const dispatch = useDispatch()
+    useEffect(() => {
         dispatch(getAllUser());
-    },[])
+    }, [])
 
     // đăng xuất admin
     const handleLogOut = () => {
@@ -31,7 +31,7 @@ const Customers = () => {
     }
 
     // cập nhập trạng thái user
-    const handleStatusUser=(user:any)=>{
+    const handleStatusUser = (user: any) => {
         const newUser = { ...user, status: !user.status }
         dispatch(updateUser(newUser));
     }
@@ -73,6 +73,9 @@ const Customers = () => {
                     <Route path="/Category" element={<Category />} />
                     <Route path="/Settings" element={<Settings />} />
                 </Routes>
+                <div className="header">
+                    <h1>Customers</h1>
+                </div>
                 <div className="user-table">
                     <table className="user-table__table">
                         <thead className="user-table__thead">
@@ -93,7 +96,7 @@ const Customers = () => {
                                     <td className="user-table__td">{user.created_at}</td>
                                     <td className="user-table__td">
                                         <button className="user-table__view-button">View</button>
-                                        <button onClick={()=>handleStatusUser(user)} className={user.status ? "user-table__active-button" : "user-table__inactive-button"}>
+                                        <button onClick={() => handleStatusUser(user)} className={user.status ? "user-table__active-button" : "user-table__inactive-button"}>
                                             {user.status ? "Mở" : "Chặn"}
                                         </button>
                                     </td>

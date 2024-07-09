@@ -18,33 +18,47 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, getAllProduct } from '../../../store/reducers/productReducer';
 import Category from '../category/Category';
 import { IoIosLogOut } from 'react-icons/io';
+import EditProduct from './EditProduct';
 
 const Products = () => {
     const data:any = useSelector(state=>state);
-    console.log("data",data);
-    const dispatch=useDispatch()
+    const dispatch=useDispatch();
+
     useEffect(()=>{
         dispatch(getAllProduct());
-    },[data])
+    },[dispatch]);
+
     const [statusProduct, setStatusProduct] = useState<boolean>(true);
+    const [statusEditProduct, setStatusEditProduct] = useState<boolean>(false); // Default to false
+    const [productToEdit, setProductToEdit] = useState<any>(null); // Store product to edit
+
     const onclickAddProduct = () => {
         setStatusProduct(false);
     }
+
     const backProduct = () => {
         setStatusProduct(true);
     }
+
+    const backEditProduct = () => {
+        setStatusEditProduct(false);
+    }
+
     const formatVND = (value) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     }
 
-    // hàm xóa
-    const handleDeleteProduct=(id:number)=>{
+    const handleDeleteProduct = (id:number) => {
         dispatch(deleteProduct(id));
     }
 
-    // đăng xuất admin
-    const handleLogOut=()=>{
+    const handleLogOut = () => {
         window.location.href = 'http://localhost:5173/LoginAdmin';
+    }
+
+    const handleEditProduct = (product:any) => {
+        setProductToEdit(product);
+        setStatusEditProduct(true);
     }
 
     return (
@@ -89,7 +103,7 @@ const Products = () => {
                     <div className="header">
                         <h1>Products</h1>
                     </div>
-                    <div style={{ display: `${statusProduct ? "block" : "none"}` }} className="product-management-render">
+                    <div style={{ display: `${statusProduct && !statusEditProduct ? "block" : "none"}` }} className="product-management-render">
                         <button onClick={onclickAddProduct} className="add-button">+ Add Product</button>
                         <div className="product-table">
                             <div className="product-table-select">sắp xếp theo:
@@ -103,27 +117,27 @@ const Products = () => {
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Status</th>
-                                        <th>Category</th>
-                                        <th>Price</th>
-                                        <th>Date</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Trạng thái</th>
+                                        <th>Loại</th>
+                                        <th>Giá</th>
+                                        <th>Ngày tạo</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {data.productReducer.products.map(product => (
-                                        <tr>
+                                        <tr key={product.id}>
                                             <td>{product.id}</td>
                                             <td>{product.name}</td>
-                                            <td>{product.status}</td>
+                                            <td>{product.status ? 'Đang bán' : 'Dừng bán'}</td>
                                             <td>{product.category}</td>
                                             <td>{formatVND(product.price)}</td>
-                                            <td>{product.date}</td>
+                                            <td>{product.created_at}</td>
                                             <td>
                                                 <button className="action-button view">View</button>
-                                                <button className="action-button edit">Edit</button>
-                                                <button onClick={()=>handleDeleteProduct(product.id)} className="action-button delete">Delete</button>
+                                                <button onClick={() => handleEditProduct(product)} className="action-button edit">Edit</button>
+                                                <button onClick={() => handleDeleteProduct(product.id)} className="action-button delete">Delete</button>
                                             </td>
                                         </tr>
                                     ))}
@@ -141,7 +155,10 @@ const Products = () => {
                         </div>
                     </div>
                     <div style={{ display: `${statusProduct ? "none" : "block"}` }}>
-                        <AddProduct  backProduct={backProduct} />
+                        <AddProduct backProduct={backProduct} />
+                    </div>
+                    <div style={{ display: `${statusEditProduct ? "block" : "none"}` }}>
+                        <EditProduct product={productToEdit} backEditProduct={backEditProduct} />
                     </div>
                 </div>
             </main>

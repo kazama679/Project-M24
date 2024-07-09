@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import "../../../styles/AddProduct.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategory } from "../../../store/reducers/categoryReducer";
-import { addProduct, getAllProduct } from "../../../store/reducers/productReducer";
+import { addProduct, getAllProduct, updateProduct } from "../../../store/reducers/productReducer";
 
-interface AddProductProps {
-    backProduct: () => void;
+interface EditProductProps {
+    product: any;
+    backEditProduct: () => void;
 }
 
-const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
+const EditProduct: React.FC<EditProductProps> = ({ product, backEditProduct }) => {
     const data: any = useSelector(state => state);
     const dispatch = useDispatch();
-
     useEffect(() => {
         dispatch(getAllCategory());
         dispatch(getAllProduct());
@@ -28,26 +28,37 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
     const [statusMess2, setStatusMess2] = useState<boolean>(false);
     const [statusMess3, setStatusMess3] = useState<boolean>(false);
     const [statusMess4, setStatusMess4] = useState<boolean>(false);
-    const [statusMess5, setStatusMess5] = useState<boolean>(false); // Thêm trạng thái thông báo cho phân loại sản phẩm
+    const [statusMess5, setStatusMess5] = useState<boolean>(false);
     const [statusMess6, setStatusMess6] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (product) {
+            setNameProduct(product.name);
+            setPriceProduct(product.price);
+            setCategoryProduct(product.category);
+            setStatusProduct(product.status);
+            setImageProduct(product.image);
+            setDescriptionProduct(product.description);
+        }
+    }, [product]);
 
     const handleNameProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNameProduct(e.target.value);
     };
 
+    // kiểm tra xem có phải số không
     const handlePriceProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const parsedValue = parseFloat(value);
 
         if (isNaN(parsedValue)) {
-            setStatusMess6(true); // Hiển thị thông báo lỗi nếu giá trị không phải là số hợp lệ
+            setStatusMess6(true);
             setPriceProduct(0); // Đặt giá trị sản phẩm về 0 nếu không hợp lệ
         } else {
-            setStatusMess6(false); // Tắt thông báo lỗi nếu giá trị hợp lệ
+            setStatusMess6(false);
             setPriceProduct(parsedValue);
         }
     };
-
 
     const handleCategoryProduct = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setCategoryProduct(e.target.value);
@@ -100,24 +111,24 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
         }
 
         // Kiểm tra trùng tên sản phẩm
-        const isDuplicate = data.productReducer.products.some((product: any) => product.name === nameProduct);
+        const isDuplicate = data.productReducer.products.some((p: any) => p.name === nameProduct && p.id !== product.id);
         if (isDuplicate) {
             setStatusMess4(true);
             return;
         }
 
-        const newProduct = {
-            id: Math.floor(Math.random() * 99999999),
+        const editProduct = {
+            ...product,
             name: nameProduct,
             price: priceProduct,
             category: categoryProduct,
             status: statusProduct,
             image: imageProduct,
             description: descriptionProduct,
-            created_at: formattedDate,
             updated_at: formattedDate,
         };
-        dispatch(addProduct(newProduct));
+
+        dispatch(updateProduct(editProduct));
         setStatusMess3(true);
         setTimeout(() => {
             window.location.href = 'http://localhost:5173/Products';
@@ -126,20 +137,19 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
 
     return (
         <div className="add-product-page">
-            <button onClick={backProduct} className="back-button">Back</button>
-            <h1>Add Product</h1>
+            <button onClick={backEditProduct} className="back-button">Back</button>
+            <h1>Edit Product</h1>
             <form className="add-product-form" onSubmit={saveProduct}>
                 <div className="form-group-two">
                     <div>
                         <div className="form-group">
                             <label>Tên sản phẩm</label>
-                            <input onChange={handleNameProduct} type="text" placeholder="Iphone 15 pro max" />
+                            <input onChange={handleNameProduct} type="text" value={nameProduct} placeholder="Iphone 15 pro max" />
                             {statusMess1 ? <div className="messProduct">Vui lòng nhập tên cho sản phẩm</div> : <></>}
-                            {statusMess4 ? <div className="messProduct">Tên sản phẩm đã tồn tại</div> : <></>}
                         </div>
                         <div className="form-group">
                             <label>Giá</label>
-                            <input onChange={handlePriceProduct} type="text" placeholder="15.000.000 đ" />
+                            <input onChange={handlePriceProduct} value={priceProduct} type="text" placeholder="15.000.000 đ" />
                             {statusMess2 ? <div className="messProduct">Vui lòng nhập giá cho sản phẩm</div> : <></>}
                             {statusMess6 ? <div className="messProduct">Vui lòng nhập đúng định dạng số</div> : <></>}
                         </div>
@@ -160,7 +170,7 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
                         </div>
                         <div className="form-group">
                             <label>Trạng thái</label>
-                            <select onChange={handleStatusProduct}>
+                            <select onChange={handleStatusProduct} value={statusProduct ? 'true' : 'false'}>
                                 <option value="true">Đang bán</option>
                                 <option value="false">Dừng bán</option>
                             </select>
@@ -169,8 +179,7 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
                     <div>
                         <div className="form-group">
                             <label>Ảnh</label>
-                            {/* <input onChange={handleImageProduct} type="file" /> */}
-                            <input onChange={handleImageProduct} type="text" />
+                            <input value={imageProduct} onChange={handleImageProduct} type="text" />
                             <div className="image-preview">
                                 <div className="image-placeholder"></div>
                                 <div className="image-placeholder"></div>
@@ -178,15 +187,15 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
                         </div>
                         <div className="form-group">
                             <label>Chi tiết sản phẩm</label>
-                            <textarea onChange={handleDescriptionProduct} placeholder="Type here"></textarea>
+                            <textarea value={descriptionProduct} onChange={handleDescriptionProduct} placeholder="Type here"></textarea>
                         </div>
                     </div>
                 </div>
-                {statusMess3 ? <div className="messAddProduct">Đã thêm sản phẩm thành công</div> : <></>}
-                <button type="submit" className="submit-button">Thêm sản phẩm</button>
+                {statusMess3 ? <div className="messAddProduct">Đã chỉnh sửa sản phẩm thành công</div> : <></>}
+                <button type="submit" className="submit-button">Sửa sản phẩm</button>
             </form>
         </div>
     );
 };
 
-export default AddProduct;
+export default EditProduct;

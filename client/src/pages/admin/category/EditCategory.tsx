@@ -16,7 +16,7 @@ const EditCategory: React.FC<EditCategoryProps> = ({ backEditCategory, currentCa
 
     useEffect(() => {
         setNameCategory(currentCategory?.name || '');
-        setStatusCategory(currentCategory?.status || true);
+        setStatusCategory(currentCategory?.status || false);
         setDescriptionCategory(currentCategory?.description || '');
     }, [currentCategory]);
 
