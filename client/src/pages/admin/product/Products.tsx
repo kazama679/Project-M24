@@ -17,20 +17,27 @@ import AddProduct from './AddProduct';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, getAllProduct } from '../../../store/reducers/productReducer';
 import Category from '../category/Category';
-import { IoIosLogOut } from 'react-icons/io';
+import { IoIosLogOut, IoMdSearch } from 'react-icons/io';
 import EditProduct from './EditProduct';
+import avtADM from '../../../images/Đen và Xanh mòng két Minh họa Thể thao Điện tử Game Logo (1).png';
 
 const Products = () => {
-    const data:any = useSelector(state=>state);
-    const dispatch=useDispatch();
+    const data: any = useSelector(state => state);
+    const dispatch = useDispatch();
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getAllProduct());
-    },[dispatch]);
+    }, [dispatch]);
 
     const [statusProduct, setStatusProduct] = useState<boolean>(true);
-    const [statusEditProduct, setStatusEditProduct] = useState<boolean>(false); // Default to false
-    const [productToEdit, setProductToEdit] = useState<any>(null); // Store product to edit
+    const [statusEditProduct, setStatusEditProduct] = useState<boolean>(false);
+    const [productToEdit, setProductToEdit] = useState<any>(null);
+    const [statusDelete, setStatusDelete] = useState(false);
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [sortOption, setSortOption] = useState<string>('');
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
+    const productsPerPage = 5;
 
     const onclickAddProduct = () => {
         setStatusProduct(false);
@@ -48,7 +55,11 @@ const Products = () => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     }
 
-    const handleDeleteProduct = (id:number) => {
+    const handleDeleteProduct = (id: number) => {
+        setStatusDelete(true);
+        setTimeout(() => {
+            setStatusDelete(false);
+        }, 3000)
         dispatch(deleteProduct(id));
     }
 
@@ -56,10 +67,42 @@ const Products = () => {
         window.location.href = 'http://localhost:5173/LoginAdmin';
     }
 
-    const handleEditProduct = (product:any) => {
+    const handleEditProduct = (product: any) => {
         setProductToEdit(product);
         setStatusEditProduct(true);
     }
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value);
+    }
+
+    const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSortOption(event.target.value);
+    }
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    }
+
+    const filteredAndSortedProducts = data.productReducer.products
+        .filter(product =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => {
+            if (sortOption === 'name') {
+                return a.name.localeCompare(b.name);
+            } else if (sortOption === 'price') {
+                return a.price - b.price;
+            } else if (sortOption === 'created_at') {
+                return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+            }
+            return 0;
+        });
+
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = filteredAndSortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(filteredAndSortedProducts.length / productsPerPage);
 
     return (
         <div className="dashboard">
@@ -100,17 +143,40 @@ const Products = () => {
                     <Route path="/Settings" element={<Settings />} />
                 </Routes>
                 <div className="product-management">
-                    <div className="header">
-                        <h1>Products</h1>
-                    </div>
+                    <header className="header">
+                        <div className="header__left">
+                            <h1 className="header__title">Products</h1>
+                        </div>
+                        <div className="header__right">
+                            <div className="header__search">
+                                <IoMdSearch className='iconSearch'/>
+                                <input
+                                    className="header__search-input"
+                                    type="text"
+                                    placeholder="Search"
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
+                                />
+                            </div>
+                            <div className="header__notifications">
+                                <i className="header__icon icon-bell"></i>
+                            </div>
+                            <div className="header__profile">
+                                <img className='avtADM' src={avtADM} alt="" />
+                                <span className="header__profile-name">Admin</span>
+                                <i className="header__icon icon-dropdown"></i>
+                            </div>
+                        </div>
+                    </header>
                     <div style={{ display: `${statusProduct && !statusEditProduct ? "block" : "none"}` }} className="product-management-render">
                         <button onClick={onclickAddProduct} className="add-button">+ Add Product</button>
                         <div className="product-table">
                             <div className="product-table-select">sắp xếp theo:
-                                <select className="product-table-select-option" name="" id="">
-                                    <option value="">Id</option>
-                                    <option value="">Name</option>
-                                    <option value="">Price</option>
+                                <select className="product-table-select-option" value={sortOption} onChange={handleSortChange}>
+                                    <option value="">Chọn</option>
+                                    <option value="name">Tên</option>
+                                    <option value="price">Giá</option>
+                                    <option value="created_at">Ngày tạo</option>
                                 </select>
                             </div>
                             <table>
@@ -126,7 +192,7 @@ const Products = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.productReducer.products.map(product => (
+                                    {currentProducts.map(product => (
                                         <tr key={product.id}>
                                             <td>{product.id}</td>
                                             <td>{product.name}</td>
@@ -143,14 +209,17 @@ const Products = () => {
                                     ))}
                                 </tbody>
                             </table>
+                            {statusDelete ? <div className='messDelete'>Đã xóa thành công!</div> : <></>}
                             <div className="pagination">
-                                <button>1</button>
-                                <button>2</button>
-                                <button>3</button>
-                                <button>4</button>
-                                <button>5</button>
-                                <span>...</span>
-                                <button>20</button>
+                                {Array.from({ length: totalPages }, (_, index) => (
+                                    <button
+                                        key={index + 1}
+                                        onClick={() => handlePageChange(index + 1)}
+                                        className={currentPage === index + 1 ? 'active' : ''}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     </div>

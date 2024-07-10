@@ -12,8 +12,8 @@ import Customers from './Customers';
 import Dashboard from './Dashboard';
 import Orders from './Orders';
 import Category from './category/Category';
-import { IoIosLogOut } from 'react-icons/io';
-// import Settings from './Setting';
+import { IoIosLogOut, IoMdSearch } from 'react-icons/io';
+import avtADM from '../../images/Đen và Xanh mòng két Minh họa Thể thao Điện tử Game Logo (1).png';
 
 const Settings = () => {
     // đăng xuất admin
@@ -58,7 +58,27 @@ const Settings = () => {
                     <Route path="/Customers" element={<Customers />} />
                     <Route path="/Category" element={<Category />} />
                 </Routes>
-                Settings
+                <div className="product-management">
+                    <header className="header">
+                        <div className="header__left">
+                            <h1 className="header__title">Settings</h1>
+                        </div>
+                        <div className="header__right">
+                            <div className="header__search">
+                                <IoMdSearch className='iconSearch'/>
+                                <input className="header__search-input" type="text" placeholder="Search" />
+                            </div>
+                            <div className="header__notifications">
+                                <i className="header__icon icon-bell"></i>
+                            </div>
+                            <div className="header__profile">
+                                <img className='avtADM' src={avtADM} alt="" />
+                                <span className="header__profile-name">Admin</span>
+                                <i className="header__icon icon-dropdown"></i>
+                            </div>
+                        </div>
+                    </header>
+                </div>
             </main>
         </div>
     );

@@ -13,9 +13,10 @@ import Dashboard from './Dashboard';
 import Orders from './Orders';
 import Settings from './Setting';
 import Category from './category/Category';
-import { IoIosLogOut } from 'react-icons/io';
+import { IoIosLogOut, IoMdSearch } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUser, updateUser } from '../../store/reducers/userReducer';
+import avtADM from '../../images/Đen và Xanh mòng két Minh họa Thể thao Điện tử Game Logo (1).png';
 
 const Customers = () => {
     const data: any = useSelector(state => state);
@@ -73,44 +74,62 @@ const Customers = () => {
                     <Route path="/Category" element={<Category />} />
                     <Route path="/Settings" element={<Settings />} />
                 </Routes>
-                <div className="header">
-                    <h1>Customers</h1>
-                </div>
-                <div className="user-table">
-                    <table className="user-table__table">
-                        <thead className="user-table__thead">
-                            <tr className="user-table__tr">
-                                <th className="user-table__th">ID</th>
-                                <th className="user-table__th">Tên đăng nhập</th>
-                                <th className="user-table__th">Email</th>
-                                <th className="user-table__th">Date</th>
-                                <th className="user-table__th">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody className="user-table__tbody">
-                            {data.userReducer.users.map(user => (
-                                <tr key={user.id} className="user-table__tr">
-                                    <td className="user-table__td">{user.id}</td>
-                                    <td className="user-table__td">{user.name}</td>
-                                    <td className="user-table__td">{user.email}</td>
-                                    <td className="user-table__td">{user.created_at}</td>
-                                    <td className="user-table__td">
-                                        <button className="user-table__view-button">View</button>
-                                        <button onClick={() => handleStatusUser(user)} className={user.status ? "user-table__active-button" : "user-table__inactive-button"}>
-                                            {user.status ? "Mở" : "Chặn"}
-                                        </button>
-                                    </td>
+                <div className="product-management">
+                    <header className="header">
+                        <div className="header__left">
+                            <h1 className="header__title">Customers</h1>
+                        </div>
+                        <div className="header__right">
+                            <div className="header__search">
+                                <IoMdSearch className='iconSearch'/>
+                                <input className="header__search-input" type="text" placeholder="Search" />
+                            </div>
+                            <div className="header__notifications">
+                                <i className="header__icon icon-bell"></i>
+                            </div>
+                            <div className="header__profile">
+                                <img className='avtADM' src={avtADM} alt="" />
+                                <span className="header__profile-name">Admin</span>
+                                <i className="header__icon icon-dropdown"></i>
+                            </div>
+                        </div>
+                    </header>
+                    <div className="user-table">
+                        <table className="user-table__table">
+                            <thead className="user-table__thead">
+                                <tr className="user-table__tr">
+                                    <th className="user-table__th">ID</th>
+                                    <th className="user-table__th">Tên đăng nhập</th>
+                                    <th className="user-table__th">Email</th>
+                                    <th className="user-table__th">Date</th>
+                                    <th className="user-table__th">Action</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div className="user-table__pagination">
-                        <button className="user-table__page-button">1</button>
-                        <button className="user-table__page-button">2</button>
-                        <button className="user-table__page-button">3</button>
-                        <button className="user-table__page-button">4</button>
-                        <button className="user-table__page-button">...</button>
-                        <button className="user-table__page-button">20</button>
+                            </thead>
+                            <tbody className="user-table__tbody">
+                                {data.userReducer.users.map(user => (
+                                    <tr key={user.id} className="user-table__tr">
+                                        <td className="user-table__td">{user.id}</td>
+                                        <td className="user-table__td">{user.name}</td>
+                                        <td className="user-table__td">{user.email}</td>
+                                        <td className="user-table__td">{user.created_at}</td>
+                                        <td className="user-table__td">
+                                            <button className="user-table__view-button">View</button>
+                                            <button onClick={() => handleStatusUser(user)} className={user.status ? "user-table__active-button" : "user-table__inactive-button"}>
+                                                {user.status ? "Mở" : "Chặn"}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="user-table__pagination">
+                            <button className="user-table__page-button">1</button>
+                            <button className="user-table__page-button">2</button>
+                            <button className="user-table__page-button">3</button>
+                            <button className="user-table__page-button">4</button>
+                            <button className="user-table__page-button">...</button>
+                            <button className="user-table__page-button">20</button>
+                        </div>
                     </div>
                 </div>
             </main>

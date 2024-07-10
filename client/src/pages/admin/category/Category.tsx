@@ -13,21 +13,28 @@ import Orders from '../Orders';
 import Settings from '../Setting';
 import Customers from '../Customers';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCategory, getAllCategory, updateCategory } from '../../../store/reducers/categoryReducer';
+import { deleteCategory, getAllCategory } from '../../../store/reducers/categoryReducer';
 import AddCategory from './AddCategory';
-import { IoIosLogOut } from 'react-icons/io';
+import { IoIosLogOut, IoMdSearch } from 'react-icons/io';
 import EditCategory from './EditCategory';
+import avtADM from '../../../images/Đen và Xanh mòng két Minh họa Thể thao Điện tử Game Logo (1).png';
 
 const Category = () => {
     const data = useSelector(state => state);
-    console.log("data", data);
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getAllCategory());
-    }, []);
+    }, [dispatch]);
+
     const [statusCategory, setStatusCategory] = useState(true);
     const [statusEditCategory, setStatusEditCategory] = useState(true);
+    const [statusDelete, setStatusDelete] = useState(false);
     const [currentCategory, setCurrentCategory] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const categoriesPerPage = 5;
 
     const onclickAddCategory = () => {
         setStatusCategory(false);
@@ -36,11 +43,14 @@ const Category = () => {
         setStatusCategory(true);
     };
 
-    // hàm xóa
     const handleDeleteCategory = (id) => {
+        setStatusDelete(true);
+        setTimeout(() => {
+            setStatusDelete(false);
+        }, 3000);
         dispatch(deleteCategory(id));
     };
-    // cập nhập
+
     const handleUpdateCategory = (item) => {
         setStatusEditCategory(false);
         setCurrentCategory(item);
@@ -50,10 +60,26 @@ const Category = () => {
         setCurrentCategory(null);
     };
 
-    // đăng xuất admin
     const handleLogOut = () => {
         window.location.href = 'http://localhost:5173/LoginAdmin';
     };
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const filteredCategories = data.categoryReducer.classify.filter(category =>
+        category.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const indexOfLastCategory = currentPage * categoriesPerPage;
+    const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
+    const currentCategories = filteredCategories.slice(indexOfFirstCategory, indexOfLastCategory);
+    const totalPages = Math.ceil(filteredCategories.length / categoriesPerPage);
 
     return (
         <div className="dashboard">
@@ -94,10 +120,32 @@ const Category = () => {
                     <Route path="/Settings" element={<Settings />} />
                 </Routes>
                 <div className="product-management">
-                    <div className="header">
-                        <h1>Category</h1>
-                    </div>
-                    <div style={{ display: `${statusCategory&&statusEditCategory ? "block" : "none"}`}} className="product-management-render">
+                    <header className="header">
+                        <div className="header__left">
+                            <h1 className="header__title">Category</h1>
+                        </div>
+                        <div className="header__right">
+                            <div className="header__search">
+                                <IoMdSearch className='iconSearch' />
+                                <input
+                                    className="header__search-input"
+                                    type="text"
+                                    placeholder="Search"
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
+                                />
+                            </div>
+                            <div className="header__notifications">
+                                <i className="header__icon icon-bell"></i>
+                            </div>
+                            <div className="header__profile">
+                                <img className='avtADM' src={avtADM} alt="" />
+                                <span className="header__profile-name">Admin</span>
+                                <i className="header__icon icon-dropdown"></i>
+                            </div>
+                        </div>
+                    </header>
+                    <div style={{ display: `${statusCategory && statusEditCategory ? "block" : "none"}` }} className="product-management-render">
                         <button onClick={onclickAddCategory} className="add-button">+ Add Category</button>
                         <div className="product-table">
                             <table>
@@ -111,7 +159,7 @@ const Category = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.categoryReducer.classify.map(item => (
+                                    {currentCategories.map(item => (
                                         <tr key={item.id}>
                                             <td>{item.id}</td>
                                             <td>{item.name}</td>
@@ -125,14 +173,17 @@ const Category = () => {
                                     ))}
                                 </tbody>
                             </table>
+                            {statusDelete ? <div className='messDelete'>Đã xóa thành công!</div> : <></>}
                             <div className="pagination">
-                                <button>1</button>
-                                <button>2</button>
-                                <button>3</button>
-                                <button>4</button>
-                                <button>5</button>
-                                <span>...</span>
-                                <button>20</button>
+                                {Array.from({ length: totalPages }, (_, index) => (
+                                    <button
+                                        key={index}
+                                        className={index + 1 === currentPage ? 'active' : ''}
+                                        onClick={() => handlePageChange(index + 1)}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     </div>

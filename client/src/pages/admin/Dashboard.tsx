@@ -4,7 +4,7 @@ import { MdDashboard } from "react-icons/md";
 import { RiBillFill } from "react-icons/ri";
 import { MdCategory } from "react-icons/md";
 import { PiUsersFill } from "react-icons/pi";
-import { IoIosLogOut } from "react-icons/io";
+import { IoIosLogOut, IoMdSearch } from "react-icons/io";
 import { FaProductHunt } from "react-icons/fa";
 import { MdOutlineSettingsSuggest } from "react-icons/md";
 import { NavLink, Route, Routes } from 'react-router-dom';
@@ -13,10 +13,11 @@ import Customers from './Customers';
 import Orders from './Orders';
 import Settings from './Setting';
 import Category from './category/Category';
+import avtADM from '../../images/Đen và Xanh mòng két Minh họa Thể thao Điện tử Game Logo (1).png';
 
 const Dashboard = () => {
     // đăng xuất admin
-    const handleLogOut=()=>{
+    const handleLogOut = () => {
         window.location.href = 'http://localhost:5173/LoginAdmin';
     }
     return (
@@ -54,10 +55,30 @@ const Dashboard = () => {
                     <Route path="/Products" element={<Products />} />
                     <Route path="/Orders" element={<Orders />} />
                     <Route path="/Customers" element={<Customers />} />
-                    <Route path="/Category" element={<Category/>} />
+                    <Route path="/Category" element={<Category />} />
                     <Route path="/Settings" element={<Settings />} />
                 </Routes>
-                Dashboard
+                <div className="product-management">
+                    <header className="header">
+                        <div className="header__left">
+                            <h1 className="header__title">Welcome back, QiQiShop</h1>
+                        </div>
+                        <div className="header__right">
+                            <div className="header__search">
+                                <input className="header__search-input" type="text" placeholder="Search" />
+                                <IoMdSearch className='iconSearch'/>
+                            </div>
+                            <div className="header__notifications">
+                                <i className="header__icon icon-bell"></i>
+                            </div>
+                            <div className="header__profile">
+                                <img className='avtADM' src={avtADM} alt="" />
+                                <span className="header__profile-name">Admin</span>
+                                <i className="header__icon icon-dropdown"></i>
+                            </div>
+                        </div>
+                    </header>
+                </div>
             </main>
         </div>
     );

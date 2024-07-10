@@ -58,28 +58,6 @@
       "updated_at": "09/07/2024"
     },
     {
-      "id": 37581942,
-      "name": "123",
-      "price": 123123,
-      "category": "Laptop gaming",
-      "status": true,
-      "image": "",
-      "description": "",
-      "created_at": "09/07/2024",
-      "updated_at": "09/07/2024"
-    },
-    {
-      "id": 99765432,
-      "name": "1231",
-      "price": 123123,
-      "category": "Laptop văn phòng",
-      "status": true,
-      "image": "",
-      "description": "",
-      "created_at": "09/07/2024",
-      "updated_at": "09/07/2024"
-    },
-    {
       "id": 69386706,
       "name": "123123",
       "price": 123,
@@ -89,20 +67,147 @@
       "description": "",
       "created_at": "09/07/2024",
       "updated_at": "09/07/2024"
+    },
+    {
+      "id": 61946163,
+      "name": "h",
+      "price": 12344444,
+      "category": "2",
+      "status": true,
+      "image": "",
+      "description": "123",
+      "created_at": "10/07/2024",
+      "updated_at": "10/07/2024"
+    },
+    {
+      "id": 42375849,
+      "name": "123",
+      "price": 123,
+      "category": "2",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "10/07/2024",
+      "updated_at": "10/07/2024"
+    },
+    {
+      "id": 74493472,
+      "name": "jjj",
+      "price": 2341,
+      "category": "2",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "10/07/2024",
+      "updated_at": "10/07/2024"
+    },
+    {
+      "id": 28919657,
+      "name": "666",
+      "price": 666,
+      "category": "1",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "10/07/2024",
+      "updated_at": "10/07/2024"
+    },
+    {
+      "id": 7396651,
+      "name": "6",
+      "price": 66,
+      "category": "2",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "10/07/2024",
+      "updated_at": "10/07/2024"
+    },
+    {
+      "id": 43609745,
+      "name": "67",
+      "price": 7,
+      "category": "2",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "10/07/2024",
+      "updated_at": "10/07/2024"
+    },
+    {
+      "id": 47722842,
+      "name": "8",
+      "price": 8,
+      "category": "2",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "10/07/2024",
+      "updated_at": "10/07/2024"
+    },
+    {
+      "id": 25042576,
+      "name": "89",
+      "price": 9,
+      "category": "1",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "10/07/2024",
+      "updated_at": "10/07/2024"
+    },
+    {
+      "id": 19346848,
+      "name": "2",
+      "price": 3,
+      "category": "1",
+      "status": true,
+      "image": "",
+      "description": "",
+      "created_at": "10/07/2024",
+      "updated_at": "10/07/2024"
     }
   ],
   "classify": [
     {
-      "id": 62714973,
-      "name": "Laptop văn phòng",
-      "description": "nhẹ",
+      "id": 77745220,
+      "name": "2",
+      "description": "",
       "status": true,
       "products": []
     },
     {
-      "id": 55771500,
-      "name": "Laptop gaming",
-      "description": "khỏe",
+      "id": 32867810,
+      "name": "1",
+      "description": "",
+      "status": true,
+      "products": []
+    },
+    {
+      "id": 3316949,
+      "name": "1",
+      "description": "",
+      "status": true,
+      "products": []
+    },
+    {
+      "id": 10462595,
+      "name": "3",
+      "description": "",
+      "status": true,
+      "products": []
+    },
+    {
+      "id": 99339873,
+      "name": "5",
+      "description": "",
+      "status": true,
+      "products": []
+    },
+    {
+      "id": 68308267,
+      "name": "6",
+      "description": "",
       "status": true,
       "products": []
     }

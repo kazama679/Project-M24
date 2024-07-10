@@ -1,15 +1,83 @@
 .product-management {
     padding: 25px;
+
     .header {
+        margin-top: -40px;
+        margin-left: -45px;
+        margin-right: -44px;
+        width: 1280px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        padding: 30px 30px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-        h1 {
-            margin: 0;
+        &__left {
+            .header__title {
+                font-size: 1.5em;
+                margin: 0;
+            }
+        }
+
+        &__right {
+            display: flex;
+            align-items: center;
+
+            .header__search {
+                margin-right: 20px;
+
+                &-input {
+                    display: flex;
+                    align-items: center;
+                    background-color: #fbfbfb;
+                    padding: 7px 30px;
+                    border-radius: 20px;
+                    border: 1px solid #ccc;
+                    width: 300px
+                }
+
+                .iconSearch {
+                    position: absolute;
+                    left: 1050px; 
+                    top: 7.5%;
+                }
+            }
+
+            .header__notifications {
+                margin-right: 20px;
+
+                .header__icon {
+                    font-size: 1.2em;
+                    cursor: pointer;
+                }
+            }
+
+            .header__profile {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+
+                .avtADM {
+                    width: 50px;
+                    border-radius: 50%;
+                }
+                .header__profile-name{
+                    font-size: 16px;
+                    margin-left: 10px;
+                }
+                &-name {
+                    margin-right: 10px;
+                    font-weight: bold;
+                }
+
+                .header__icon {
+                    font-size: 1.2em;
+                }
+            }
         }
     }
+
     .add-button {
         background-color: #007bff;
         color: white;
@@ -19,7 +87,9 @@
         cursor: pointer;
         margin-bottom: 25px;
     }
-    .product-management-render{
+
+    .product-management-render {
+        margin-top: 25px;
         padding: 25px;
         border-radius: 10px;
         border: 1px solid rgb(229, 229, 229);
