@@ -3,12 +3,15 @@ import { addUser, getAllUser } from '../../store/reducers/userReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Register: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const data: any = useSelector(state => state);
+  
   useEffect(() => {
     dispatch(getAllUser());
-  }, [])
+  }, []);
+  
   console.log("data", data.userReducer.users);
+  
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
@@ -23,45 +26,51 @@ const Register: React.FC = () => {
   const [messPass, setMessPass] = useState<boolean>(false);
   const [messPhone, setMessPhone] = useState<boolean>(false);
   const [messAddress, setMessAddress] = useState<boolean>(false);
+
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-  }
+    setName(e.target.value);
+  };
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
   const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPass(e.target.value)
-  }
+    setPass(e.target.value);
+  };
   const handleChangePasswordx2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPass2(e.target.value)
-  }
+    setPass2(e.target.value);
+  };
   const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value)
-  }
+    setPhone(e.target.value);
+  };
   const handleChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value)
-  }
-  // ngày
+    setAddress(e.target.value);
+  };
+
   const formatDate = (date: Date): string => {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
-  }
+  };
 
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
+
+  const isPasswordStrong = (password: string): boolean => {
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return strongPasswordRegex.test(password);
+  };
+
   const handleCLickSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(1);
     let isValid = true;
     
     if (name === '') {
       isValid = false;
       setMessName(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setMessName(false);
-      },3000)
+      }, 3000);
     } else {
       setMessName(false);
     }
@@ -70,36 +79,54 @@ const Register: React.FC = () => {
     if (isNameDuplicate) {
       isValid = false;
       setMessCheckName(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setMessCheckName(false);
-      },3000)
+      }, 3000);
     } else {
       setMessCheckName(false);
     }
+
+    const isEmailDuplicate = data.userReducer.users.some((user: any) => user.email === email);
+    if (isEmailDuplicate) {
+      isValid = false;
+      setMessEmail2(true);
+      setTimeout(() => {
+        setMessEmail2(false);
+      }, 3000);
+    } else {
+      setMessEmail2(false);
+    }
+
     if (email === '') {
       isValid = false;
       setMessEmail(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setMessEmail(false);
-      },3000)
-    } else if(!/\S+@\S+\.\S+/.test(email)) {
+      }, 3000);
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
       setMessEmail(false);
       setMessEmail2(true);
       isValid = false;
-      setTimeout(()=>{
+      setTimeout(() => {
         setMessEmail2(false);
-      },3000)
-    } else{
+      }, 3000);
+    } else {
       setMessEmail(false);
       setMessEmail2(false);
     }
 
-    if (pass !== pass2) {
+    if (!isPasswordStrong(pass)) {
       isValid = false;
       setMessPass(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setMessPass(false);
-      },3000)
+      }, 3000);
+    } else if (pass !== pass2) {
+      isValid = false;
+      setMessPass(true);
+      setTimeout(() => {
+        setMessPass(false);
+      }, 3000);
     } else {
       setMessPass(false);
     }
@@ -107,9 +134,9 @@ const Register: React.FC = () => {
     if (phone === '') {
       isValid = false;
       setMessPhone(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setMessPhone(false);
-      },3000)
+      }, 3000);
     } else {
       setMessPhone(false);
     }
@@ -117,15 +144,14 @@ const Register: React.FC = () => {
     if (address === '') {
       isValid = false;
       setMessAddress(true);
-      setTimeout(()=>{
+      setTimeout(() => {
         setMessAddress(false);
-      },3000)
+      }, 3000);
     } else {
       setMessAddress(false);
     }
 
     if (isValid) {
-      // thêm user
       const newUser = {
         id: Math.floor(Math.random() * 99999999),
         name: name,
@@ -138,15 +164,13 @@ const Register: React.FC = () => {
         updated_at: formattedDate,
       };
       dispatch(addUser(newUser));
-      // chuyển hướng login
       window.location.href = 'http://localhost:5173';
     }
   };
-  
+
   return (
     <div className="form-container sign-up-container">
-      <form className='form'
-      >
+      <form className='form'>
         <h1>Create Account</h1>
         <input className='input'
           type="text"
@@ -162,8 +186,8 @@ const Register: React.FC = () => {
           onChange={handleChangeEmail}
           placeholder="Email"
         />
-          <div style={{ display: `${messEmail ? "block" : "none"}` }} className='mess'>Email không được để trống</div>
-          <div style={{ display: `${messEmail2 ? "block" : "none"}` }} className='mess'>Định dạng Email không đúng</div>
+        <div style={{ display: `${messEmail ? "block" : "none"}` }} className='mess'>Email không được để trống</div>
+        <div style={{ display: `${messEmail2 ? "block" : "none"}` }} className='mess'>Định dạng Email không đúng hoặc Email bị trùng</div>
         <input className='input'
           type="password"
           name="password"
@@ -176,19 +200,19 @@ const Register: React.FC = () => {
           onChange={handleChangePasswordx2}
           placeholder="Nhập lại mật khẩu"
         />
-          <div style={{ display: `${messPass ? "block" : "none"}` }} className='mess'>Mật khẩu không trùng nhau</div>
+        <div style={{ display: `${messPass ? "block" : "none"}` }} className='mess'>Mật khẩu phải đủ mạnh và không trùng nhau</div>
         <input className='input'
           type="text"
           placeholder="Số điện thoại"
           onChange={handleChangePhone}
         />
-          <div style={{ display: `${messPhone ? "block" : "none"}` }} className='mess'>Số điện thoại không được để trống</div>
+        <div style={{ display: `${messPhone ? "block" : "none"}` }} className='mess'>Số điện thoại không được để trống</div>
         <input className='input'
           type="text"
           placeholder="Địa chỉ"
           onChange={handleChangeAddress}
         />
-          <div style={{ display: `${messAddress ? "block" : "none"}` }} className='mess'>Địa chỉ không được để trống</div>
+        <div style={{ display: `${messAddress ? "block" : "none"}` }} className='mess'>Địa chỉ không được để trống</div>
         <button className='button' onClick={handleCLickSave}>Đăng ký</button>
       </form>
     </div>

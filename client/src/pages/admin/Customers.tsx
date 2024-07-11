@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/Dashboard.scss';
 import '../../styles/Customers.scss'
 import { MdDashboard } from "react-icons/md";
@@ -19,12 +19,15 @@ import { getAllUser, updateUser } from '../../store/reducers/userReducer';
 import avtADM from '../../images/Đen và Xanh mòng két Minh họa Thể thao Điện tử Game Logo (1).png';
 
 const Customers = () => {
-    const data: any = useSelector(state => state);
-    console.log("data", data.userReducer.users);
-    const dispatch = useDispatch()
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const perPage = 5; // số lượng item trên mỗi trang
+    const data = useSelector(state => state);
+    const dispatch = useDispatch();
+    
     useEffect(() => {
         dispatch(getAllUser());
-    }, [])
+    }, [dispatch]);
 
     // đăng xuất admin
     const handleLogOut = () => {
@@ -32,10 +35,57 @@ const Customers = () => {
     }
 
     // cập nhập trạng thái user
-    const handleStatusUser = (user: any) => {
+    const handleStatusUser = (user) => {
         const newUser = { ...user, status: !user.status }
         dispatch(updateUser(newUser));
     }
+
+    // xử lý tìm kiếm
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    }
+
+    // danh sách khách hàng đã lọc
+    const filteredUsers = data.userReducer.users.filter((user) => {
+        return user.name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+
+    // tính toán index bắt đầu và kết thúc của trang hiện tại
+    const startIndex = (currentPage - 1) * perPage;
+    const endIndex = startIndex + perPage;
+    
+    // lấy danh sách khách hàng của trang hiện tại
+    const paginateData = () => {
+        return filteredUsers.slice(startIndex, endIndex);
+    };
+
+    // thay đổi trang
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    // số lượng trang
+    const totalPages = Math.ceil(filteredUsers.length / perPage);
+
+    // render danh sách khách hàng của trang hiện tại
+    const renderUsers = paginateData().map((user) => (
+        <tr key={user.id} className="user-table__tr">
+            <td className="user-table__td">{user.id}</td>
+            <td className="user-table__td">{user.name}</td>
+            <td className="user-table__td">{user.email}</td>
+            <td className="user-table__td">{user.created_at}</td>
+            <td className="user-table__td">
+                <button className="user-table__view-button">View</button>
+                <button 
+                    onClick={() => handleStatusUser(user)} 
+                    className={user.status ? "user-table__active-button" : "user-table__inactive-button"}
+                >
+                    {user.status ? "Mở" : "Chặn"}
+                </button>
+            </td>
+        </tr>
+    ));
+
     return (
         <div className="dashboard">
             <aside className="sidebar">
@@ -82,7 +132,13 @@ const Customers = () => {
                         <div className="header__right">
                             <div className="header__search">
                                 <IoMdSearch className='iconSearch'/>
-                                <input className="header__search-input" type="text" placeholder="Search" />
+                                <input 
+                                    className="header__search-input" 
+                                    type="text" 
+                                    placeholder="Search" 
+                                    value={searchTerm}
+                                    onChange={handleSearch}
+                                />
                             </div>
                             <div className="header__notifications">
                                 <i className="header__icon icon-bell"></i>
@@ -106,29 +162,19 @@ const Customers = () => {
                                 </tr>
                             </thead>
                             <tbody className="user-table__tbody">
-                                {data.userReducer.users.map(user => (
-                                    <tr key={user.id} className="user-table__tr">
-                                        <td className="user-table__td">{user.id}</td>
-                                        <td className="user-table__td">{user.name}</td>
-                                        <td className="user-table__td">{user.email}</td>
-                                        <td className="user-table__td">{user.created_at}</td>
-                                        <td className="user-table__td">
-                                            <button className="user-table__view-button">View</button>
-                                            <button onClick={() => handleStatusUser(user)} className={user.status ? "user-table__active-button" : "user-table__inactive-button"}>
-                                                {user.status ? "Mở" : "Chặn"}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {renderUsers}
                             </tbody>
                         </table>
                         <div className="user-table__pagination">
-                            <button className="user-table__page-button">1</button>
-                            <button className="user-table__page-button">2</button>
-                            <button className="user-table__page-button">3</button>
-                            <button className="user-table__page-button">4</button>
-                            <button className="user-table__page-button">...</button>
-                            <button className="user-table__page-button">20</button>
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <button 
+                                    key={index} 
+                                    className={`user-table__page-button ${currentPage === index + 1 ? 'active' : ''}`}
+                                    onClick={() => handlePageChange(index + 1)}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>
