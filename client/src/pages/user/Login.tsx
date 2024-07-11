@@ -13,6 +13,7 @@ const Login: React.FC = () => {
   }, [])
   console.log("data", data.userReducer.users);
   const [messLogin, setMessLogin] = useState<boolean>(false);
+  const [messLogin2, setMessLogin2] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('')
   const [pass, setPass] = useState<string>('')
   // hàm kiểm tra xem có tk ko
@@ -24,14 +25,21 @@ const Login: React.FC = () => {
   }
   const handleClickLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const user = data.userReducer.users.find((user: any) => user.email === email && user.password === pass);
-    if (user) {
-      window.location.href = 'http://localhost:5173/Home';
-    } else {
-      setMessLogin(true);
+    if(email===''&&pass===''){
+      setMessLogin2(true)
       setTimeout(()=>{
-        setMessLogin(false);
+        setMessLogin2(false);
       },3000);
+    } else{
+      const user = data.userReducer.users.find((user: any) => user.email === email && user.password === pass);
+      if (user) {
+        window.location.href = 'http://localhost:5173/Home';
+      } else {
+        setMessLogin(true);
+        setTimeout(()=>{
+          setMessLogin(false);
+        },3000);
+      }
     }
   }
   return (
@@ -63,6 +71,7 @@ const Login: React.FC = () => {
           onChange={handleChangePassword}
         />
         <div style={{ display: `${messLogin ? "block" : "none"}` }} className='mess'>Tài khoản hoặc mật khẩu không chính xác</div>
+        <div style={{ display: `${messLogin2 ? "block" : "none"}` }} className='mess'>Tài khoản và mật khẩu không được để trống</div>
         <a href="#">Bạn quên mật khẩu?</a>
         <button className='button' onClick={handleClickLogin}>Đăng nhập</button>
       </form>
