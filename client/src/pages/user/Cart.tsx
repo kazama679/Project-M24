@@ -49,7 +49,7 @@ const Cart: React.FC = () => {
     // lấy ra vị trí của user đăng nhập trong db.json
     const indexUser: number = data.userReducer.users.findIndex((user: any) => user.id === loggedInUser?.id); // ? là Optional chaining (thu hoạch an toàn)
     // cập nhập quantity
-    const handleQuantityChange = (itemId:number, newQuantity:number) => {
+    const handleQuantityChange = (itemId: number, newQuantity: number) => {
         if (newQuantity <= 0) {
             return;
         }
@@ -59,7 +59,8 @@ const Cart: React.FC = () => {
             }
             return item;
         });
-        dispatch(updateUserCart({ id: loggedInUser.id, cart: updatedCart }));
+        const updatedUser = { ...data.userReducer.users[indexUser], cart: updatedCart };
+        dispatch(updateUserCart(updatedUser));
     }
     // tính tổng tiền 
     const totalAll = () => {
@@ -72,7 +73,8 @@ const Cart: React.FC = () => {
     // xóa sản phẩm trong cart
     const deleteCart = (itemId: number) => {
         const updatedCart = data.userReducer.users[indexUser]?.cart.filter((item: any) => item.id !== itemId);
-        dispatch(updateUserCart({ id: loggedInUser.id, cart: updatedCart }));
+        const updatedUser = { ...data.userReducer.users[indexUser], cart: updatedCart };
+        dispatch(updateUserCart(updatedUser));
     }
     return (
         <div className='allBanner'>
