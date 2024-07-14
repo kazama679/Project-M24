@@ -3,6 +3,8 @@ import "../../../styles/AddProduct.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategory } from "../../../store/reducers/categoryReducer";
 import { addProduct, getAllProduct } from "../../../store/reducers/productReducer";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../../config/config";
 
 interface AddProductProps {
     backProduct: () => void;
@@ -19,22 +21,23 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
 
     const [nameProduct, setNameProduct] = useState<string>('');
     const [priceProduct, setPriceProduct] = useState<number>(0);
+    const [stockProduct, setStockProduct] = useState<number>(0);
     const [categoryProduct, setCategoryProduct] = useState<string>('');
     const [statusProduct, setStatusProduct] = useState<boolean>(true);
     const [imageProduct, setImageProduct] = useState<string>('');
+    const [imageURL, setImageURL] = useState<any>('');
     const [descriptionProduct, setDescriptionProduct] = useState<string>('');
 
     const [statusMess1, setStatusMess1] = useState<boolean>(false);
     const [statusMess2, setStatusMess2] = useState<boolean>(false);
     const [statusMess3, setStatusMess3] = useState<boolean>(false);
     const [statusMess4, setStatusMess4] = useState<boolean>(false);
-    const [statusMess5, setStatusMess5] = useState<boolean>(false); // Thêm trạng thái thông báo cho phân loại sản phẩm
+    const [statusMess5, setStatusMess5] = useState<boolean>(false); 
     const [statusMess6, setStatusMess6] = useState<boolean>(false);
+    const [statusMess7, setStatusMess7] = useState<boolean>(false);
+    const [statusMess8, setStatusMess8] = useState<boolean>(false);
 
-    const handleNameProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNameProduct(e.target.value);
-    };
-
+    // nhập giá
     const handlePriceProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const parsedValue = parseFloat(value);
@@ -48,6 +51,18 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
         }
     };
 
+    // nhập số lượng
+    const handleStockProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const parsedValue = parseFloat(value);
+        if (isNaN(parsedValue)) {
+            setStatusMess8(true);
+            setStockProduct(0);
+        } else {
+            setStatusMess8(false);
+            setStockProduct(parsedValue);
+        }
+    };
 
     const handleCategoryProduct = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setCategoryProduct(e.target.value);
@@ -55,10 +70,6 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
 
     const handleStatusProduct = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setStatusProduct(e.target.value === 'true');
-    };
-
-    const handleImageProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setImageProduct(e.target.value);
     };
 
     const handleDescriptionProduct = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -84,7 +95,9 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
         setStatusMess3(false);
         setStatusMess4(false);
         setStatusMess5(false);
-        setStatusMess6(false); // Reset trạng thái thông báo cho định dạng giá
+        setStatusMess6(false);
+        setStatusMess7(false);
+        setStatusMess8(false); // Reset trạng thái thông báo cho định dạng giá
 
         if (nameProduct === '') {
             setStatusMess1(true);
@@ -98,31 +111,49 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
             setStatusMess5(true);
             return;
         }
-
+        if (stockProduct === 0) {
+            setStatusMess7(true);
+            return;
+        }
         // Kiểm tra trùng tên sản phẩm
         const isDuplicate = data.productReducer.products.some((product: any) => product.name === nameProduct);
         if (isDuplicate) {
             setStatusMess4(true);
             return;
         }
-
-        const newProduct = {
-            id: Math.floor(Math.random() * 99999999),
-            name: nameProduct,
-            price: priceProduct,
-            category: categoryProduct,
-            status: statusProduct,
-            image: imageProduct,
-            description: descriptionProduct,
-            created_at: formattedDate,
-            updated_at: formattedDate,
-        };
-        dispatch(addProduct(newProduct));
         setStatusMess3(true);
-        setTimeout(() => {
-            window.location.href = 'http://localhost:5173/Products';
-        }, 1000);
+        const imageRef = ref(storage, `ptit-image/${imageURL.name}`);
+        uploadBytes(imageRef, imageURL).then((snapShop) => {
+            getDownloadURL(snapShop.ref).then((url) => {
+                setImageProduct(url)
+                const newProduct = {
+                    id: Math.floor(Math.random() * 99999999),
+                    name: nameProduct,
+                    price: priceProduct,
+                    stock: stockProduct,
+                    category: categoryProduct,
+                    status: statusProduct,
+                    image: url,
+                    description: descriptionProduct,
+                    created_at: formattedDate,
+                    updated_at: formattedDate,
+                };
+                dispatch(addProduct(newProduct));
+                setTimeout(() => {
+                    window.location.href = 'http://localhost:5173/Products';
+                }, 1000);
+            })
+        })
     };
+
+    // up ảnh
+    const changeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // lấy giá trị của ảnh người dùng đã chọn
+        const valueImage: any = e.target.files?.[0];
+        console.log(valueImage);
+        // lưu lại giá trị người dùng chọn
+        setImageURL(valueImage)
+    }
 
     return (
         <div className="add-product-page">
@@ -133,7 +164,7 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
                     <div>
                         <div className="form-group">
                             <label>Tên sản phẩm</label>
-                            <input onChange={handleNameProduct} type="text" placeholder="Iphone 15 pro max" />
+                            <input onChange={(e) => setNameProduct(e.target.value)} type="text" placeholder="Iphone 15 pro max" />
                             {statusMess1 ? <div className="messProduct">Vui lòng nhập tên cho sản phẩm</div> : <></>}
                             {statusMess4 ? <div className="messProduct">Tên sản phẩm đã tồn tại</div> : <></>}
                         </div>
@@ -167,14 +198,24 @@ const AddProduct: React.FC<AddProductProps> = ({ backProduct }) => {
                         </div>
                     </div>
                     <div>
+                    <div className="form-group">
+                            <label>Số lượng</label>
+                            <input onChange={handleStockProduct} type="text" placeholder="100" />
+                            {statusMess7 ? <div className="messProduct">Vui lòng nhập số lượng hàng</div> : <></>}
+                            {statusMess8 ? <div className="messProduct">Vui lòng nhập đúng định dạng số</div> : <></>}
+                        </div>
                         <div className="form-group">
                             <label>Ảnh</label>
-                            {/* <input onChange={handleImageProduct} type="file" /> */}
-                            <input onChange={handleImageProduct} type="text" />
-                            <div className="image-preview">
-                                <div className="image-placeholder"></div>
-                                <div className="image-placeholder"></div>
-                            </div>
+                            <input type="file" id="file-upload" className="hidden" onChange={changeImage} />
+                            {imageURL ? (
+                                    <div className="image-preview">
+                                        <img src={URL.createObjectURL(imageURL)} alt="Chosen image" width={150} />
+                                    </div>
+                            ) : (
+                                <div className="image-preview">
+                                    <div className="image-placeholder"></div>
+                                </div>
+                            )}
                         </div>
                         <div className="form-group">
                             <label>Chi tiết sản phẩm</label>

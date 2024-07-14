@@ -1,0 +1,226 @@
+.product-card-all {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+
+  .product-card {
+    width: 70%;
+    height: 50%;
+    display: flex;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+
+    .product-image {
+      img {
+        width: 500px;
+        height: 500px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(169, 169, 169, 0.2);
+      }
+    }
+
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 500px;
+      height: 500px;
+      margin-left: 40px;
+      text-align: start;
+
+      h1 {
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .stars {
+          display: flex;
+
+          .star {
+            color: #f5c518;
+            margin-right: 2px;
+          }
+        }
+
+        span {
+          margin-left: 5px;
+        }
+      }
+
+      .price {
+        .returnProduct {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+
+          .return {
+            color: #e74c3c;
+            font-size: 16px;
+          }
+        }
+
+        font-size: 30px;
+
+        .old-price {
+          text-decoration: line-through;
+          color: #999;
+        }
+
+        .price-text {
+          font-size: 16px;
+        }
+
+        .new-price {
+          color: #e74c3c;
+          font-weight: bold;
+        }
+      }
+
+      .shipping {
+        .shipping-content {
+          font-size: 14px;
+          color: #36404a;
+        }
+
+        .shipping-text-div {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+
+          .shipping-text-div-icon {
+            color: rgb(255, 136, 0);
+            font-size: 22px;
+          }
+
+          font-size: 14px;
+
+          .shipping-text-a {
+            color: blue;
+            font-size: 14px;
+            border-bottom: 1px solid blue;
+          }
+        }
+
+        margin: 10px 0;
+
+        .shipping-text {
+          color: #3482db;
+          margin-bottom: 5px;
+        }
+
+        span {
+          display: block;
+        }
+      }
+
+      .quantity {
+        display: flex;
+        align-items: center;
+
+        label {
+          margin-right: 10px;
+        }
+
+        .quantity-controls {
+          display: flex;
+          align-items: center;
+
+
+          button {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            font-size: 20px;
+          }
+
+          input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            height: 30px;
+          }
+        }
+      }
+
+      .pay {
+        display: flex;
+        gap: 10px;
+        align-self: flex-end;
+
+        .add-to-cart {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          margin: 10px 0;
+          padding: 13px 20px;
+          border: none;
+          border-radius: 4px;
+          color: #fff;
+          cursor: pointer;
+        }
+
+        .buy-now {
+          margin: 10px 0;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 4px;
+          color: #fff;
+          cursor: pointer;
+        }
+
+        .add-to-cart {
+          background-color: #3498db;
+        }
+
+        .buy-now {
+          background-color: #e74c3c;
+        }
+      }
+    }
+  }
+
+  .notification {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #e0ffe0;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+    position: fixed; 
+    top: 40%; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1002; 
+
+    &-icon {
+      color: #28a745;
+      font-size: 24px;
+      margin-right: 10px;
+    }
+
+    &-message {
+      font-size: 16px;
+      color: #495057;
+    }
+  }
+}

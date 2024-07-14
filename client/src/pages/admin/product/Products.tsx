@@ -51,6 +51,7 @@ const Products = () => {
         setStatusEditProduct(false);
     }
 
+    // format tiền
     const formatVND = (value) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     }
@@ -195,7 +196,7 @@ const Products = () => {
                                     {currentProducts.map(product => (
                                         <tr key={product.id}>
                                             <td>{product.id}</td>
-                                            <td>{product.name}</td>
+                                            <td className="product-name">{product.name}</td>
                                             <td>{product.status ? 'Đang bán' : 'Dừng bán'}</td>
                                             <td>{product.category}</td>
                                             <td>{formatVND(product.price)}</td>

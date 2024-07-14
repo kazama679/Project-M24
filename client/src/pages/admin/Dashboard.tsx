@@ -61,7 +61,7 @@ const Dashboard = () => {
                 <div className="product-management">
                     <header className="header">
                         <div className="header__left">
-                            <h1 className="header__title">Welcome back, QiQiShop</h1>
+                            <h1 className="header__title">Welcome back, Qiqishop</h1>
                         </div>
                         <div className="header__right">
                             <div className="header__search">

@@ -1,80 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../../styles/Home.scss';
-import image1 from '../../images/slide_1.jpg'
-import image2 from '../../images/hinh-nen-may-tinh-4k-1.jpg'
-import image3 from '../../images/Đen và Xanh mòng két Minh họa Thể thao Điện tử Game Logo (1).png'
-import { MdMailOutline, MdOutlineConfirmationNumber, MdOutlineNavigateBefore, MdOutlineNavigateNext, MdOutlineWorkHistory } from 'react-icons/md';
-import { FaFacebook, FaGoogle, FaInstagram, FaMapMarkerAlt, FaPhoneAlt, FaRedo, FaSearch, FaStar, FaTwitch, FaYoutube } from 'react-icons/fa';
+import { FaCartPlus, FaFacebook, FaGoogle, FaInstagram, FaMapMarkerAlt, FaPhoneAlt, FaShippingFast, FaTwitch, FaYoutube } from 'react-icons/fa';
+import { MdMailOutline, MdOutlinePhoneForwarded, MdOutlineWorkHistory } from 'react-icons/md';
 import { RiShoppingCart2Fill } from 'react-icons/ri';
+import { GiReturnArrow } from 'react-icons/gi';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllProduct } from '../../store/reducers/productReducer';
-import { getAllCategory } from '../../store/reducers/categoryReducer';
-import { FcCheckmark } from 'react-icons/fc';
-import { GiCheckMark } from 'react-icons/gi';
-import { CgCalendarDates } from 'react-icons/cg';
-import { FaPlugCircleCheck } from 'react-icons/fa6';
-import { getAllUser } from '../../store/reducers/userReducer';
+import { getAllUser, updateUserCart } from '../../store/reducers/userReducer';
+import { updateUserCartAPI } from '../../services/user.service';
 
-const Home: React.FC = () => {
-
+const Card: React.FC = () => {
   const data: any = useSelector(state => state);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [mess, setMess] = useState<boolean>(false);
+
+  const location = useLocation();
+  const product = location.state?.product;
   const [loggedInUser, setLoggedInUser] = useState<any>(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(getAllProduct());
-    dispatch(getAllUser());
-    dispatch(getAllCategory());
-    const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
-    setLoggedInUser(user);
-  }, []);
-
-  const images = [
-    image1,
-    image2,
-    image3
-  ];
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
-
-  // bấm vào feedback 
   const handleMail = () => {
     window.location.href = 'https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=new'
   }
 
-  // format tiền
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+    dispatch(getAllUser());
+    setLoggedInUser(user);
+  }, [dispatch]);
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIncrease = () => setQuantity(quantity + 1);
+  const handleDecrease = () => {
+    if (quantity > 1) setQuantity(quantity - 1);
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    if (value > 0) {
+      setQuantity(value);
+    }
+  };
+
+  // lấy ra vị trí của user đăng nhập trong db.json
+  const indexUser: number = data.userReducer.users.findIndex((user: any) => user.id === loggedInUser?.id); // ? là Optional chaining (thu hoạch an toàn)
+
   const formatVND = (value: number) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
   }
 
-  //chuyển đến giỏ hàng
   const nextToCart = () => {
     navigate('/Cart');
   }
-  //chuyển đến trang chủ
+
   const nextToHome = () => {
     navigate('/Home');
   }
-  // bắn dữ liệu để hiển thị product
-  const handleShowProduct = (product: any) => {
-    navigate(`/Card`, { state: { product } });
-  }
-  // đăng xuất user
+
   const logOut = () => {
-    localStorage.removeItem('loggedInUser'); // Xóa Local
+    localStorage.removeItem('loggedInUser');
     navigate('/');
   }
-  if(loggedInUser===''||loggedInUser===null){
-    navigate('/');
+
+  if (!product) {
+    return <div>Không tìm thấy sản phẩm.</div>;
   }
   // tài khoản của tôi
   const myAccount = () => {
@@ -84,9 +73,34 @@ const Home: React.FC = () => {
   const myPay = () => {
 
   }
-  // lấy ra vị trí của user đăng nhập trong db.json
-  const indexUser: number = data.userReducer.users.findIndex((user: any) => user.id === loggedInUser?.id); // ? là Optional chaining (thu hoạch an toàn)
-  
+
+  // cập nhập trạng thái user
+  const addToCart = (user: any, product: any, number: number) => {
+    // Tìm sản phẩm trong giỏ hàng của người dùng
+    const existingCartItem = user.cart.find((item: any) => item.id === product.id);
+    console.log(1233333, existingCartItem, product.id, user.cart);
+    let newCart;
+    // Nếu sản phẩm đã có trong giỏ hàng
+    if (existingCartItem) {
+      // Tạo một mảng giỏ hàng mới, với số lượng sản phẩm được cộng thêm
+      newCart = user.cart.map((item: any) =>
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + number }
+          : item
+      );
+    } else {
+      // Nếu sản phẩm chưa có trong giỏ hàng, thêm sản phẩm mới vào giỏ hàng
+      newCart = [...user.cart, { ...product, quantity: number }];
+    }
+    // Tạo một đối tượng người dùng mới với giỏ hàng đã được cập nhật
+    const newUserCartItem = { ...user, cart: newCart };
+    dispatch(updateUserCart(newUserCartItem));
+    setMess(true);
+    setTimeout(()=>{
+      setMess(false);
+    },2000)
+  };
+
   return (
     <div className='allBanner'>
       <div className='allBanner-header'>
@@ -112,7 +126,7 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <div className='allBanner-header2'>
+      <div className='allBanner-header3'>
         <div className='allBanner-header2-text'>Laptops</div>
         <div className='allBanner-header2-top'>
           <div onClick={nextToHome}>TRANG CHỦ</div>
@@ -129,92 +143,61 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <div className="carousel">
-        <div className="carousel-inner">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className={`carousel-item ${index === currentIndex ? 'active' : ''}`}
-            >
-              <img src={image} className="d-block w-100" alt={`Slide ${index}`} />
+      {/* Card */}
+      <div className="product-card-all">
+        <div className="product-card">
+          <div className="product-image">
+            <img src={product.image} alt="Laptop Lenovo Thinkpad" />
+          </div>
+          <div className="product-info">
+            <h1>{product.name}</h1>
+            <div className="rating">
+              <span>5</span>
+              <div className="stars">
+                {[...Array(5)].map((_, index) => (
+                  <span key={index} className="star">★</span>
+                ))}
+              </div>
+              <span>chính hãng</span>
             </div>
-          ))}
-        </div>
-        <button className="carousel-control-prev" onClick={prevSlide}>
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="visually-hidden"><MdOutlineNavigateBefore /></span>
-        </button>
-        <button className="carousel-control-next" onClick={nextSlide}>
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="visually-hidden"><MdOutlineNavigateNext /></span>
-        </button>
-      </div>
-
-      <div className="search-inventory">
-        <div className="search-inventory-header">
-          <FaSearch className="search-inventory-icon" />
-          <span>Tìm kiếm Laptop</span>
-        </div>
-        <div className="search-inventory-controls">
-          <select className="search-inventory-select">
-            <option>Chọn năm</option>
-            <option>Năm 2023</option>
-            <option>Năm 2022</option>
-            <option>Năm 2021</option>
-            <option>Năm 2020</option>
-          </select>
-          <select className="search-inventory-select">
-            <option>Chọn loại</option>
-            {data.categoryReducer.classify.map((item) => {
-              return <option key={item.id}>{item.name}</option>
-            })}
-          </select>
-          <select className="search-inventory-select">
-            <option>Chọn giá</option>
-            <option>Giá từ 10-15tr</option>
-            <option>Giá từ 15-20tr</option>
-            <option>Giá từ 20-25tr</option>
-            <option>Giá từ 25-30tr</option>
-          </select>
-          <button className="search-inventory-button search-button">
-            <FaSearch />
-            Tìm Kiếm
-          </button>
-          <button className="search-inventory-button reset-button">
-            <FaRedo />
-          </button>
-        </div>
-      </div>
-
-      <div className="recent-cars">
-        <h1 className="title">
-          RECENT <span className="highlight">Laptop</span>
-        </h1>
-        <p className="subtitle">
-          Curabitur tellus leo, euismod sit amet gravida at, egestas sed commodo.
-        </p>
-      </div>
-
-      <div className="car-list">
-        {data.productReducer.products.map(item => (
-          <div key={item.id} className="car-card">
-            <img src={item.image} className="car-image" />
-            <div className="car-details">
-              <h2 className="car-name">{item.name}</h2>
-              <div className="car-details-buy">
-                <button onClick={() => handleShowProduct(item)} className="buy-online">Xem sản phẩm</button>
-                <div className="car-price">{formatVND(item.price)}</div>
+            <div className="price">
+              <span className='returnProduct'>chính sách trả hành: <GiReturnArrow className='return' />Đổi trả 15 ngày</span>
+            </div>
+            <div className="price">
+              <span className="price-text">Giá sản phẩm:</span>
+              <span className="price-text new-price">{formatVND(product.price)}</span>
+            </div>
+            <div className="shipping">
+              <div className="shipping-content"><b>Chi tiết sản phẩm:</b> {product.description}</div>
+            </div>
+            <div className="shipping">
+              <span className="shipping-text"><FaShippingFast /> Miễn phí vận chuyển</span>
+              <div>Vận Chuyển Tới: <b></b></div>
+            </div>
+            <div className="quantity">
+              <label>Số Lượng</label>
+              <div className="quantity-controls">
+                <button onClick={handleDecrease} className="decrease">-</button>
+                <input type="text" value={quantity} onChange={handleQuantityChange} />
+                <button onClick={handleIncrease} className="increase">+</button>
               </div>
-              <div className="car-info">
-                <span className="car-year"><GiCheckMark /> Chính hãng</span>
-                <span className="car-fuel"><CgCalendarDates /> 2023</span>
-                <span className="car-transmission"><FaPlugCircleCheck /> Sạc nhanh!</span>
-              </div>
+            </div>
+            <div className="shipping">
+              <div className="shipping-text-div"><MdOutlinePhoneForwarded className="shipping-text-div-icon" /> Hỗ trợ, tư vấn ngay qua <a className='shipping-text-a' href="https://www.facebook.com/?locale=en_EL">messenger FB</a> hoặc qua Zalo 0349199812</div>
+            </div>
+            <div className="pay">
+              <button onClick={() => addToCart(data.userReducer.users[indexUser], product, quantity)} className="add-to-cart"><FaCartPlus />Thêm Vào Giỏ Hàng</button>
+              <button className="buy-now">Mua Ngay</button>
             </div>
           </div>
-        ))}
+        </div>
+        {/* thông báo thêm sản phẩm thành công */}
+        <div style={{display:`${mess ? 'block' : 'none'}`}} className='notification'>
+          <div className='notification-icon'>✔</div>
+          <div className='notification-message'>Thêm vào giỏ hàng thành công</div>
+        </div>
       </div>
-
+      {/* end Card */}
       <div className="contact-section">
         <div className="contact-text">
           BẠN CÓ CÂU HỎI? ĐỪNG NGẦN NGẠI HỎI...
@@ -298,4 +281,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Card;

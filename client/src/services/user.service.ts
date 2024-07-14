@@ -23,3 +23,12 @@ export const updateUserAPI = async (item: any) => {
     );
     return response.data;
 }
+
+// hàm cập nhật giỏ hàng user
+export const updateUserCartAPI = async (item: any) => {
+    const response: any = await axios.put(
+        `http://localhost:8080/users/${item.id}`,
+        item
+    );
+    return response.data;
+}

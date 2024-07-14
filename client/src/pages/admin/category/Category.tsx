@@ -164,7 +164,7 @@ const Category = () => {
                                             <td>{item.id}</td>
                                             <td>{item.name}</td>
                                             <td>{item.status ? "Đang hoạt động" : "Đã dừng"}</td>
-                                            <td>{item.description}</td>
+                                            <td className='description'>{item.description}</td>
                                             <td>
                                                 <button onClick={() => handleUpdateCategory(item)} className="action-button edit">Edit</button>
                                                 <button onClick={() => handleDeleteCategory(item.id)} className="action-button delete">Delete</button>

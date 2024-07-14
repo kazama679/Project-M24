@@ -162,6 +162,7 @@ const Register: React.FC = () => {
         address: address,
         created_at: formattedDate,
         updated_at: formattedDate,
+        cart:[]
       };
       dispatch(addUser(newUser));
       window.location.href = 'http://localhost:5173';

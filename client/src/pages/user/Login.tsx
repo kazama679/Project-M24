@@ -33,6 +33,7 @@ const Login: React.FC = () => {
     } else{
       const user = data.userReducer.users.find((user: any) => user.email === email && user.password === pass);
       if (user) {
+        localStorage.setItem('loggedInUser', JSON.stringify(user));  // Lưu thông tin người dùng vào Local Storage
         window.location.href = 'http://localhost:5173/Home';
       } else {
         setMessLogin(true);
@@ -42,6 +43,7 @@ const Login: React.FC = () => {
       }
     }
   }
+  
   return (
     <div className="form-container sign-in-container">
       <form className='form'

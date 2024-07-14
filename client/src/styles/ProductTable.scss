@@ -21,7 +21,18 @@
             padding: 10px;
             border: 1px solid #ddd;
         }
-
+        .product-name {
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            max-width: 200px;
+        }
+        .description{
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            max-width: 400px;
+        }
         th {
             background-color: #f4f4f4;
         }

@@ -35,7 +35,7 @@ const Customers = () => {
     }
 
     // cập nhập trạng thái user
-    const handleStatusUser = (user) => {
+    const handleStatusUser = (user:any) => {
         const newUser = { ...user, status: !user.status }
         dispatch(updateUser(newUser));
     }
