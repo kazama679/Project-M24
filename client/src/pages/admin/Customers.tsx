@@ -24,31 +24,48 @@ const Customers = () => {
     const perPage = 5; // số lượng item trên mỗi trang
     const data = useSelector(state => state);
     const dispatch = useDispatch();
+    const [filteredUsers, setFilteredUsers] = useState([]);
 
     useEffect(() => {
         dispatch(getAllUser());
     }, [dispatch]);
 
+    useEffect(() => {
+        setFilteredUsers(data.userReducer.users);
+    }, [data.userReducer.users]);
+
     // đăng xuất admin
     const handleLogOut = () => {
         window.location.href = 'http://localhost:5173/LoginAdmin';
-    }
+    };
 
     // cập nhập trạng thái user
-    const handleStatusUser = (user: any) => {
-        const newUser = { ...user, status: !user.status }
+    const handleStatusUser = (user) => {
+        const newUser = { ...user, status: !user.status };
         dispatch(updateUser(newUser));
-    }
+    };
 
     // xử lý tìm kiếm
     const handleSearch = (e) => {
-        setSearchTerm(e.target.value);
-    }
+        const term = e.target.value;
+        setSearchTerm(term);
+        const filtered = data.userReducer.users.filter(user => user.name.toLowerCase().includes(term.toLowerCase()));
+        setFilteredUsers(filtered);
+    };
 
-    // danh sách khách hàng đã lọc
-    const filteredUsers = data.userReducer.users.filter((user) => {
-        return user.name.toLowerCase().includes(searchTerm.toLowerCase());
-    });
+    // sắp xếp theo tên
+    const handleSortChange = (e) => {
+        const value = e.target.value;
+        let sortedUsers = [];
+        if (value === "lon") {
+            sortedUsers = [...filteredUsers].sort((a, b) => b.name.localeCompare(a.name));
+        } else if (value === "be") {
+            sortedUsers = [...filteredUsers].sort((a, b) => a.name.localeCompare(b.name));
+        } else {
+            sortedUsers = [...data.userReducer.users]; // Khôi phục danh sách ban đầu nếu không có sắp xếp
+        }
+        setFilteredUsers(sortedUsers);
+    };
 
     // tính toán index bắt đầu và kết thúc của trang hiện tại
     const startIndex = (currentPage - 1) * perPage;
@@ -68,9 +85,9 @@ const Customers = () => {
     const totalPages = Math.ceil(filteredUsers.length / perPage);
 
     // render danh sách khách hàng của trang hiện tại
-    const renderUsers = paginateData().map((user:any, index:number) => (
+    const renderUsers = paginateData().map((user, index) => (
         <tr key={user.id} className="user-table__tr">
-            <td className="user-table__td">{index}</td>
+            <td className="user-table__td">{startIndex + index + 1}</td>
             <td className="user-table__td">{user.name}</td>
             <td className="user-table__td">{user.email}</td>
             <td className="user-table__td">{user.phone}</td>
@@ -151,6 +168,11 @@ const Customers = () => {
                             </div>
                         </div>
                     </header>
+                    <select className="product-table-select-option" onChange={handleSortChange}>
+                        <option value="">Sắp xếp theo tên</option>
+                        <option value="be">Tên tăng dần</option>
+                        <option value="lon">Tên giảm dần</option>
+                    </select>
                     <div className="user-table">
                         <table className="user-table__table">
                             <thead className="user-table__thead">

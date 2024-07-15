@@ -23,7 +23,11 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loggedInUser, setLoggedInUser] = useState<any>(null);
-
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedYear, setSelectedYear] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedPrice, setSelectedPrice] = useState<string>('');
+  const [statusBorder, setStatusBorder] = useState<boolean>(false);
   useEffect(() => {
     dispatch(getAllProduct());
     dispatch(getAllUser());
@@ -74,7 +78,7 @@ const Home: React.FC = () => {
     localStorage.removeItem('loggedInUser'); // Xóa Local
     navigate('/');
   }
-  if(loggedInUser===''||loggedInUser===null){
+  if (loggedInUser === '' || loggedInUser === null) {
     navigate('/');
   }
   // tài khoản của tôi
@@ -87,7 +91,56 @@ const Home: React.FC = () => {
   }
   // lấy ra vị trí của user đăng nhập trong db.json
   const indexUser: number = data.userReducer.users.findIndex((user: any) => user.id === loggedInUser?.id); // ? là Optional chaining (thu hoạch an toàn)
-  
+  // tìm kiếm theo tên sản phẩm
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  }
+  // chọn năm sản phẩm
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear(e.target.value);
+  }
+  // chọn loại sản phẩm
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
+  }
+  // chọn khoảng giá sản phẩm
+  const handlePriceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedPrice(e.target.value);
+  }
+  // Lọc danh sách sản phẩm dựa trên từ khóa tìm kiếm, năm, loại và khoảng giá được chọn
+  const filteredProducts = data.productReducer.products.filter((product: any) => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesYear = selectedYear ? product.created_at.slice(-4) === selectedYear : true;
+    const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
+    const matchesPrice = selectedPrice ?
+      (selectedPrice === 'duoi10' ? product.price < 10000000 :
+        selectedPrice === '10-20' ? product.price >= 10000000 && product.price <= 20000000 :
+          selectedPrice === 'tren20' ? product.price > 20000000 : true) : true;
+    return matchesSearch && matchesYear && matchesCategory && matchesPrice;
+  });
+  // reset lại lọc
+  const handleReset = () => {
+    setSearchTerm('');
+    setSelectedYear('');
+    setSelectedCategory('');
+    setSelectedPrice('');
+    const selects = document.querySelectorAll('.search-inventory-select');
+    selects.forEach(select => {
+      select.value = '';
+    });
+    const inputs = document.querySelectorAll('.search-inventory-input');
+    inputs.forEach(input => {
+      input.value = '';
+    });
+  };
+  // di chuyển đến danh mục
+  const nextToCategory=()=>{
+    window.scrollTo(0, 450);
+    setStatusBorder(true)
+    setTimeout(() => {
+      setStatusBorder(false)
+    }, 1000);
+  }
   return (
     <div className='allBanner'>
       <div className='allBanner-header'>
@@ -117,7 +170,7 @@ const Home: React.FC = () => {
         <div className='allBanner-header2-text'>Laptops</div>
         <div className='allBanner-header2-top'>
           <div onClick={nextToHome}>TRANG CHỦ</div>
-          <div>DANH MỤC</div>
+          <div  onClick={nextToCategory}>DANH MỤC</div>
           <div>DỊCH VỤ CỦA CHÚNG TÔI</div>
           <div>BLOG</div>
           <div>MEGA MENU</div>
@@ -154,50 +207,60 @@ const Home: React.FC = () => {
       <div className="search-inventory">
         <div className="search-inventory-header">
           <FaSearch className="search-inventory-icon" />
-          <span>Tìm kiếm Laptop</span>
-        </div>
+          <input
+            onChange={handleSearch}
+            value={searchTerm}
+            className="search-inventory-search search-inventory-input"
+            type="text"
+            placeholder='Tìm kiếm Laptop'
+          /></div>
         <div className="search-inventory-controls">
-          <select className="search-inventory-select">
-            <option>Chọn năm</option>
-            <option>Năm 2023</option>
-            <option>Năm 2022</option>
-            <option>Năm 2021</option>
-            <option>Năm 2020</option>
+          <select onChange={handleYearChange} className="search-inventory-select">
+            <option value="">Chọn năm</option>
+            <option value="2024">Năm 2024</option>
+            <option value="2023">Năm 2023</option>
+            <option value="2022">Năm 2022</option>
+            <option value="2021">Năm 2021</option>
           </select>
-          <select className="search-inventory-select">
-            <option>Chọn loại</option>
-            {data.categoryReducer.classify.map((item) => {
-              return <option key={item.id}>{item.name}</option>
-            })}
+          <select onChange={handleCategoryChange} className="search-inventory-select" style={{ border: statusBorder ? '4px solid yellow' : 'none' }}>
+            <option value="">Chọn loại</option>
+            {data.categoryReducer.classify.map((item: any) => (
+              <option value={item.name} key={item.id}>{item.name}</option>
+            ))}
           </select>
-          <select className="search-inventory-select">
-            <option>Chọn giá</option>
-            <option>Giá từ 10-15tr</option>
-            <option>Giá từ 15-20tr</option>
-            <option>Giá từ 20-25tr</option>
-            <option>Giá từ 25-30tr</option>
+          <select onChange={handlePriceChange} className="search-inventory-select">
+            <option value="">Chọn giá</option>
+            <option value="duoi10">Dưới 10 triệu</option>
+            <option value="10-20">10 triệu - 20 triệu</option>
+            <option value="tren20">Trên 20 triệu</option>
           </select>
           <button className="search-inventory-button search-button">
             <FaSearch />
             Tìm Kiếm
           </button>
-          <button className="search-inventory-button reset-button">
+          <button onClick={handleReset} className="search-inventory-button reset-button">
             <FaRedo />
           </button>
         </div>
       </div>
-
-      <div className="recent-cars">
+      {filteredProducts.length === 0 ? (<div className="recent-cars">
+        <h1 className="title">
+          <span className="highlight">Không tìm thấy sản phẩm</span>
+        </h1>
+        <p className="subtitle">
+          Vui lòng tìm kiếm sản phẩm khác!
+        </p>
+      </div>) : (<div className="recent-cars">
         <h1 className="title">
           RECENT <span className="highlight">Laptop</span>
         </h1>
         <p className="subtitle">
           Curabitur tellus leo, euismod sit amet gravida at, egestas sed commodo.
         </p>
-      </div>
-
+      </div>)}
+      {/* hiển thị danh sách sản phẩm */}
       <div className="car-list">
-        {data.productReducer.products.map(item => (
+        {filteredProducts.map(item => (
           <div key={item.id} className="car-card">
             <img src={item.image} className="car-image" />
             <div className="car-details">
@@ -215,7 +278,7 @@ const Home: React.FC = () => {
           </div>
         ))}
       </div>
-
+      {/* end-hiển thị danh sách sản phẩm */}
       <div className="contact-section">
         <div className="contact-text">
           BẠN CÓ CÂU HỎI? ĐỪNG NGẦN NGẠI HỎI...

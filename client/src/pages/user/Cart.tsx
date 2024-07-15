@@ -88,6 +88,11 @@ const Cart: React.FC = () => {
         e.preventDefault();
         navigate('/Pay', { state: { note } });
     }
+    // xóa tất cả sản phẩm trong giỏ
+    const deleteAll=()=>{
+        const updatedUser = { ...data.userReducer.users[indexUser], cart: [] };
+        dispatch(updateUserCart(updatedUser));
+    }
     return (
         <div className='allBanner'>
             <div className='allBanner-header'>
@@ -184,6 +189,7 @@ const Cart: React.FC = () => {
                         <button onClick={handlePay} className="shopping-cart__checkout">Thanh toán</button>
                     </div>
                 </div>
+                {data.userReducer.users[indexUser]?.cart?.length !== 0 ? (<button onClick={deleteAll} className="shopping-cart-delete-all">Xóa tất cả sản phẩm trong giỏ</button>) : (<></>)}
             </div>
             <div className='shopping-cart-end'>
                 <button onClick={nextToHome} className="shopping-cart__continue"><b>Tiếp tục mua hàng</b></button>
