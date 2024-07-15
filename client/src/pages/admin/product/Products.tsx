@@ -52,7 +52,7 @@ const Products = () => {
     }
 
     // format tiền
-    const formatVND = (value) => {
+    const formatVND = (value:number) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     }
 
@@ -154,7 +154,7 @@ const Products = () => {
                                 <input
                                     className="header__search-input"
                                     type="text"
-                                    placeholder="Search"
+                                    placeholder="Tìm kiếm theo tên sản phẩm"
                                     value={searchTerm}
                                     onChange={handleSearchChange}
                                 />
@@ -183,7 +183,8 @@ const Products = () => {
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>STT</th>
+                                        <th>Ảnh</th>
                                         <th>Tên sản phẩm</th>
                                         <th>Trạng thái</th>
                                         <th>Loại</th>
@@ -193,18 +194,18 @@ const Products = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {currentProducts.map(product => (
-                                        <tr key={product.id}>
-                                            <td>{product.id}</td>
+                                    {currentProducts.map((product:any, index:number) => (
+                                        <tr key={index}>
+                                            <td>{index}</td>
+                                            <td><img className='image' src={product.image} alt="" /></td>
                                             <td className="product-name">{product.name}</td>
                                             <td>{product.status ? 'Đang bán' : 'Dừng bán'}</td>
                                             <td>{product.category}</td>
                                             <td>{formatVND(product.price)}</td>
                                             <td>{product.created_at}</td>
                                             <td>
-                                                <button className="action-button view">View</button>
-                                                <button onClick={() => handleEditProduct(product)} className="action-button edit">Edit</button>
-                                                <button onClick={() => handleDeleteProduct(product.id)} className="action-button delete">Delete</button>
+                                                <button onClick={() => handleEditProduct(product)} className="action-button edit">Chi tiết</button>
+                                                <button onClick={() => handleDeleteProduct(product.id)} className="action-button delete">Xóa</button>
                                             </td>
                                         </tr>
                                     ))}

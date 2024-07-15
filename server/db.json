@@ -11,6 +11,18 @@
       "created_at": "14/07/2024",
       "updated_at": "14/07/2024",
       "cart": []
+    },
+    {
+      "id": 99095580,
+      "name": "Minh Anh",
+      "email": "manh@gmail.com",
+      "status": true,
+      "password": "Teo123456",
+      "phone": "0349199812",
+      "address": "hn",
+      "created_at": "14/07/2024",
+      "updated_at": "14/07/2024",
+      "cart": []
     }
   ],
   "products": [
@@ -24,7 +36,8 @@
       "description": "Laptop ASUS Vivobook 15 X1504ZA-NJ582W sở hữu thiết kế kim loại sang trọng với trọng lượng chỉ 1.7kg đi kèm màn hình IPS 15.6-inch FHD sắc nét. Công nghệ CPU Intel thế hệ 12, RAM DDR4 và ổ SSD M.2 PCIe Gen3 trên thiết bị đảm bảo hiệu suất mạnh mẽ. Ngoài ra, sản phẩm laptop Asus Vivobook còn có sẵn 3 loại cổng kết nối USB thuận tiện để kết nối các thiết bị lưu trữ khác nhau.",
       "created_at": "13/07/2024",
       "updated_at": "14/07/2024",
-      "stock": 50
+      "stock": 30,
+      "quantity": 10
     },
     {
       "id": 71671509,
@@ -36,7 +49,8 @@
       "description": "MacBook Pro 16 inch M3 Pro Max 2023 (16-core CPU | 40-core GPU | 48GB RAM- 1TB SSD) MUW63/MUW73",
       "created_at": "13/07/2024",
       "updated_at": "14/07/2024",
-      "stock": 123
+      "stock": 99,
+      "quantity": 1
     },
     {
       "id": 85440592,
@@ -77,6 +91,75 @@
       "description": "Thiết kế hầm hố, phù hợp cho học sinh, sinh viên, đặt biệt cho các bạn thiết kế đồ họa ggfasduyuiyfudgys tyudfsyuuyytouifyaus\n\n",
       "status": true,
       "products": []
+    }
+  ],
+  "orders": [
+    {
+      "id": "PTUOB-1903",
+      "name": "Quang",
+      "status": "daDuyet",
+      "phone": "0349199812",
+      "address": "HN",
+      "created_at": "15/07/2024",
+      "updated_at": "15/07/2024",
+      "cart": [
+        {
+          "id": 39443274,
+          "name": "Laptop ASUS Vivobook 15 X1504ZA-NJ582W",
+          "price": 10690000,
+          "category": "Laptop văn phòng",
+          "status": true,
+          "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Flaptopvanphong1.webp?alt=media&token=5eb8db21-ac7f-4194-8f43-da0ca3e57e89",
+          "description": "Laptop ASUS Vivobook 15 X1504ZA-NJ582W sở hữu thiết kế kim loại sang trọng với trọng lượng chỉ 1.7kg đi kèm màn hình IPS 15.6-inch FHD sắc nét. Công nghệ CPU Intel thế hệ 12, RAM DDR4 và ổ SSD M.2 PCIe Gen3 trên thiết bị đảm bảo hiệu suất mạnh mẽ. Ngoài ra, sản phẩm laptop Asus Vivobook còn có sẵn 3 loại cổng kết nối USB thuận tiện để kết nối các thiết bị lưu trữ khác nhau.",
+          "created_at": "13/07/2024",
+          "updated_at": "14/07/2024",
+          "stock": 50,
+          "quantity": 10
+        }
+      ],
+      "note": "note1",
+      "ship": 30000,
+      "payTo": "NhanHang"
+    },
+    {
+      "id": "ZTUUT-9806",
+      "name": "Minh Anh",
+      "status": "choDuyet",
+      "phone": "0349199812",
+      "address": "HP",
+      "created_at": "15/07/2024",
+      "updated_at": "15/07/2024",
+      "cart": [
+        {
+          "id": 39443274,
+          "name": "Laptop ASUS Vivobook 15 X1504ZA-NJ582W",
+          "price": 10690000,
+          "category": "Laptop văn phòng",
+          "status": true,
+          "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Flaptopvanphong1.webp?alt=media&token=5eb8db21-ac7f-4194-8f43-da0ca3e57e89",
+          "description": "Laptop ASUS Vivobook 15 X1504ZA-NJ582W sở hữu thiết kế kim loại sang trọng với trọng lượng chỉ 1.7kg đi kèm màn hình IPS 15.6-inch FHD sắc nét. Công nghệ CPU Intel thế hệ 12, RAM DDR4 và ổ SSD M.2 PCIe Gen3 trên thiết bị đảm bảo hiệu suất mạnh mẽ. Ngoài ra, sản phẩm laptop Asus Vivobook còn có sẵn 3 loại cổng kết nối USB thuận tiện để kết nối các thiết bị lưu trữ khác nhau.",
+          "created_at": "13/07/2024",
+          "updated_at": "14/07/2024",
+          "stock": 40,
+          "quantity": 10
+        },
+        {
+          "id": 71671509,
+          "name": "MacBook Pro 16 inch",
+          "price": 93000000,
+          "category": "Laptop văn phòng",
+          "status": true,
+          "image": "https://firebasestorage.googleapis.com/v0/b/xuanquang-14d06.appspot.com/o/ptit-image%2Flaptopvanphong2.jpeg?alt=media&token=3e992185-2e03-4bc9-865e-7651da9e6330",
+          "description": "MacBook Pro 16 inch M3 Pro Max 2023 (16-core CPU | 40-core GPU | 48GB RAM- 1TB SSD) MUW63/MUW73",
+          "created_at": "13/07/2024",
+          "updated_at": "14/07/2024",
+          "stock": 123,
+          "quantity": 23
+        }
+      ],
+      "note": "note2",
+      "ship": 30000,
+      "payTo": "NhanHang"
     }
   ]
 }

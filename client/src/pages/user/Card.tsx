@@ -26,6 +26,7 @@ const Card: React.FC = () => {
     const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
     dispatch(getAllUser());
     setLoggedInUser(user);
+    window.scrollTo(0, 0); // đảm bảo cuộn lên đầu trang
   }, [dispatch]);
 
   const [quantity, setQuantity] = useState(1);

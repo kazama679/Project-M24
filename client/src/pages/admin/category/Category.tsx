@@ -130,7 +130,7 @@ const Category = () => {
                                 <input
                                     className="header__search-input"
                                     type="text"
-                                    placeholder="Search"
+                                    placeholder="Tìm kiếm theo tên danh mục"
                                     value={searchTerm}
                                     onChange={handleSearchChange}
                                 />
@@ -166,8 +166,8 @@ const Category = () => {
                                             <td>{item.status ? "Đang hoạt động" : "Đã dừng"}</td>
                                             <td className='description'>{item.description}</td>
                                             <td>
-                                                <button onClick={() => handleUpdateCategory(item)} className="action-button edit">Edit</button>
-                                                <button onClick={() => handleDeleteCategory(item.id)} className="action-button delete">Delete</button>
+                                                <button onClick={() => handleUpdateCategory(item)} className="action-button edit">Chi tiết</button>
+                                                <button onClick={() => handleDeleteCategory(item.id)} className="action-button delete">Xóa</button>
                                             </td>
                                         </tr>
                                     ))}

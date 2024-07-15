@@ -29,6 +29,7 @@ const Home: React.FC = () => {
     dispatch(getAllUser());
     dispatch(getAllCategory());
     const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+    window.scrollTo(0, 0); // đảm bảo cuộn lên đầu trang
     setLoggedInUser(user);
   }, []);
 

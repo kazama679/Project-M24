@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProduct } from '../../store/reducers/productReducer';
 import { getAllUser, updateUserCart } from '../../store/reducers/userReducer';
+import { addOrder } from '../../store/reducers/orderReducer';
 
 const Cart: React.FC = () => {
     const data: any = useSelector(state => state);
@@ -17,6 +18,7 @@ const Cart: React.FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        window.scrollTo(0, 0); // đảm bảo cuộn lên đầu trang
         dispatch(getAllProduct());
         dispatch(getAllUser());
         const user = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
@@ -65,7 +67,7 @@ const Cart: React.FC = () => {
     // tính tổng tiền 
     const totalAll = () => {
         let totalPrice = 0;
-        data.userReducer.users[indexUser]?.cart.forEach((item:any) => {
+        data.userReducer.users[indexUser]?.cart.forEach((item: any) => {
             totalPrice += item.price * item.quantity;
         });
         return totalPrice;
@@ -75,6 +77,16 @@ const Cart: React.FC = () => {
         const updatedCart = data.userReducer.users[indexUser]?.cart.filter((item: any) => item.id !== itemId);
         const updatedUser = { ...data.userReducer.users[indexUser], cart: updatedCart };
         dispatch(updateUserCart(updatedUser));
+    }
+    // ghi note 
+    const [note, setNote] = useState<string>('');
+    const handleNote = (e: React.FormEvent<HTMLTextAreaElement>) => {
+        setNote(e.target.value);
+    }
+    // tạo thanh toán mới
+    const handlePay = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        navigate('/Pay', { state: { note } });
     }
     return (
         <div className='allBanner'>
@@ -146,7 +158,7 @@ const Cart: React.FC = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <div onClick={()=>deleteCart(item.id)}><RiDeleteBin6Line className='icon-delete' /></div>
+                                        <div onClick={() => deleteCart(item.id)}><RiDeleteBin6Line className='icon-delete' /></div>
                                     </div>
                                 </div>)
                             })}
@@ -156,7 +168,7 @@ const Cart: React.FC = () => {
                             </div>
                         </div>
                         <div className="shopping-cart__notes">
-                            <textarea placeholder="Ghi chú đơn hàng"></textarea>
+                            <textarea onChange={handleNote} value={note} placeholder="Ghi chú đơn hàng"></textarea>
                         </div>
                     </div>) : (<div className="shopping-cart-zero">
                         Giỏ hàng của bạn đang trống
@@ -169,7 +181,7 @@ const Cart: React.FC = () => {
                             <div className="shopping-cart__summary__child2">{formatVND(totalAll())}</div>
                         </div>
                         <div className="shopping-cart__summary-t">Bạn có thể nhập mã giảm giá ở trang thanh toán</div>
-                        <button className="shopping-cart__checkout">Thanh toán</button>
+                        <button onClick={handlePay} className="shopping-cart__checkout">Thanh toán</button>
                     </div>
                 </div>
             </div>

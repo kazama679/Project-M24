@@ -24,7 +24,7 @@ const Customers = () => {
     const perPage = 5; // số lượng item trên mỗi trang
     const data = useSelector(state => state);
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
         dispatch(getAllUser());
     }, [dispatch]);
@@ -35,7 +35,7 @@ const Customers = () => {
     }
 
     // cập nhập trạng thái user
-    const handleStatusUser = (user:any) => {
+    const handleStatusUser = (user: any) => {
         const newUser = { ...user, status: !user.status }
         dispatch(updateUser(newUser));
     }
@@ -53,7 +53,7 @@ const Customers = () => {
     // tính toán index bắt đầu và kết thúc của trang hiện tại
     const startIndex = (currentPage - 1) * perPage;
     const endIndex = startIndex + perPage;
-    
+
     // lấy danh sách khách hàng của trang hiện tại
     const paginateData = () => {
         return filteredUsers.slice(startIndex, endIndex);
@@ -68,16 +68,17 @@ const Customers = () => {
     const totalPages = Math.ceil(filteredUsers.length / perPage);
 
     // render danh sách khách hàng của trang hiện tại
-    const renderUsers = paginateData().map((user) => (
+    const renderUsers = paginateData().map((user:any, index:number) => (
         <tr key={user.id} className="user-table__tr">
-            <td className="user-table__td">{user.id}</td>
+            <td className="user-table__td">{index}</td>
             <td className="user-table__td">{user.name}</td>
             <td className="user-table__td">{user.email}</td>
+            <td className="user-table__td">{user.phone}</td>
+            <td className="user-table__td">{user.address}</td>
             <td className="user-table__td">{user.created_at}</td>
             <td className="user-table__td">
-                <button className="user-table__view-button">View</button>
-                <button 
-                    onClick={() => handleStatusUser(user)} 
+                <button
+                    onClick={() => handleStatusUser(user)}
                     className={user.status ? "user-table__active-button" : "user-table__inactive-button"}
                 >
                     {user.status ? "Mở" : "Chặn"}
@@ -131,11 +132,11 @@ const Customers = () => {
                         </div>
                         <div className="header__right">
                             <div className="header__search">
-                                <IoMdSearch className='iconSearch'/>
-                                <input 
-                                    className="header__search-input" 
-                                    type="text" 
-                                    placeholder="Search" 
+                                <IoMdSearch className='iconSearch' />
+                                <input
+                                    className="header__search-input"
+                                    type="text"
+                                    placeholder="Tìm kiếm theo tên"
                                     value={searchTerm}
                                     onChange={handleSearch}
                                 />
@@ -154,11 +155,13 @@ const Customers = () => {
                         <table className="user-table__table">
                             <thead className="user-table__thead">
                                 <tr className="user-table__tr">
-                                    <th className="user-table__th">ID</th>
+                                    <th className="user-table__th">STT</th>
                                     <th className="user-table__th">Tên đăng nhập</th>
                                     <th className="user-table__th">Email</th>
-                                    <th className="user-table__th">Date</th>
-                                    <th className="user-table__th">Action</th>
+                                    <th className="user-table__th">Số điện thoại</th>
+                                    <th className="user-table__th">Địa chỉ</th>
+                                    <th className="user-table__th">Ngày tạo</th>
+                                    <th className="user-table__th">Trạng thái</th>
                                 </tr>
                             </thead>
                             <tbody className="user-table__tbody">
@@ -167,8 +170,8 @@ const Customers = () => {
                         </table>
                         <div className="user-table__pagination">
                             {Array.from({ length: totalPages }, (_, index) => (
-                                <button 
-                                    key={index} 
+                                <button
+                                    key={index}
                                     className={`user-table__page-button ${currentPage === index + 1 ? 'active' : ''}`}
                                     onClick={() => handlePageChange(index + 1)}
                                 >
